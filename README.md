@@ -73,7 +73,7 @@ Set these as Netlify build environment variables (and in a local `.env` for deve
 3. Netlify runs `npm run build`. The `prebuild` step (`fetch-data.mjs`) fetches the latest public export into `public/data/wiki.json` and runs the privacy check; `gen-static.mjs` writes `sitemap.xml` + `robots.txt`; then Vite builds the SPA.
 4. The footer records the export timestamp: "knowledge as of …".
 
-To wire it up: create a build hook in Netlify (Site settings → Build & deploy → Build hooks), and add that URL as `DEPLOY_HOOK` in the wiki repo's CI so it fires after each export.
+To wire it up: create a build hook in Netlify (Site settings → Build & deploy → Build hooks) and store its URL as the secret **`DEPLOY_HOOK_URL`** in the wiki repo (Settings → Secrets and variables → Actions). The wiki's `.github/workflows/export.yml` already contains the notify step — it curls that hook after force-pushing a new export, gated on the secret being present — so no workflow change is needed on either side.
 
 ## Local development
 
