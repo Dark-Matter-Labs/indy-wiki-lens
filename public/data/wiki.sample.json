@@ -1,0 +1,748 @@
+{
+  "meta": {
+    "schema_version": "1.0",
+    "kind": "public",
+    "exported_at": "2026-07-08T12:00:00+00:00",
+    "node_count": 32,
+    "counts_by_type": {
+      "overview": 2,
+      "summary": 8,
+      "entity": 12,
+      "concept": 7,
+      "comparison": 2,
+      "synthesis": 1
+    },
+    "counts_by_visibility": {
+      "public": 32
+    },
+    "fixture": true
+  },
+  "nodes": [
+    {
+      "id": "ax-anticipation",
+      "slug": "ax-anticipation",
+      "title": "Anticipatory action beats reactive relief",
+      "type": "concept",
+      "layer": null,
+      "parent": null,
+      "horizon": null,
+      "tags": [
+        "axiom",
+        "status:assumptive"
+      ],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "That acting before a shock yields more welfare per unit spend than relief afterwards.",
+      "sources": [],
+      "body": "# Anticipatory action beats reactive relief\n\n**Evidence status: assumptive.** Plausible, partially evidenced, not settled.",
+      "outbound_links": [],
+      "inbound_links": [
+        "examples/outcomes-based-financing",
+        "examples/anticipatory-commons",
+        "axioms"
+      ]
+    },
+    {
+      "id": "ax-capability",
+      "slug": "ax-capability",
+      "title": "Response capability is buildable",
+      "type": "concept",
+      "layer": null,
+      "parent": null,
+      "horizon": null,
+      "tags": [
+        "axiom",
+        "status:assumptive"
+      ],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "That societal capability to respond can be deliberately constructed, not only inherited.",
+      "sources": [],
+      "body": "# Response capability is buildable\n\n**Evidence status: assumptive.**",
+      "outbound_links": [],
+      "inbound_links": [
+        "axioms"
+      ]
+    },
+    {
+      "id": "ax-microenterprise",
+      "slug": "ax-microenterprise",
+      "title": "Information arbitrage can be enterprised",
+      "type": "concept",
+      "layer": null,
+      "parent": null,
+      "horizon": null,
+      "tags": [
+        "axiom",
+        "status:evidenced"
+      ],
+      "confidence": "high",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "That connecting need to supply on information alone is a viable enterprise form.",
+      "sources": [],
+      "body": "# Information arbitrage can be enterprised\n\n**Evidence status: evidenced.** Observed in existing markets.",
+      "outbound_links": [],
+      "inbound_links": [
+        "examples/bioregional-cognition",
+        "examples/water-microenterprise",
+        "mechanisms/outcome-accelerator",
+        "axioms",
+        "challenges/arbitrage-rentiers"
+      ]
+    },
+    {
+      "id": "ax-substitutability",
+      "slug": "ax-substitutability",
+      "title": "Optionality is substitutable capital",
+      "type": "concept",
+      "layer": null,
+      "parent": null,
+      "horizon": null,
+      "tags": [
+        "axiom",
+        "status:contested"
+      ],
+      "confidence": "low",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "That preserved future options can be treated as a form of capital and traded off against present spend.",
+      "sources": [],
+      "body": "# Optionality is substitutable capital\n\n**Evidence status: contested.** Treats preserved optionality as capital. Disputed.",
+      "outbound_links": [],
+      "inbound_links": [
+        "examples/outcomes-based-financing",
+        "mechanisms/outcome-accelerator",
+        "mechanisms/capital-pool",
+        "axioms",
+        "optionality-as-infrastructure"
+      ]
+    },
+    {
+      "id": "axioms",
+      "slug": "axioms",
+      "title": "Axioms Register",
+      "type": "synthesis",
+      "layer": null,
+      "parent": null,
+      "horizon": null,
+      "tags": [
+        "axiom-register"
+      ],
+      "confidence": "high",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "The underlying assumption models everything else rests on.",
+      "sources": [],
+      "body": "# Axioms Register\n\nThe assumptions beneath the argument, shown honestly — evidenced, assumptive, or contested.",
+      "outbound_links": [
+        "ax-substitutability",
+        "ax-anticipation",
+        "ax-microenterprise",
+        "ax-capability"
+      ],
+      "inbound_links": []
+    },
+    {
+      "id": "challenges/arbitrage-rentiers",
+      "slug": "challenges/arbitrage-rentiers",
+      "title": "Counterposition: the arbitrage layer entrenches rentiers",
+      "type": "comparison",
+      "layer": null,
+      "parent": null,
+      "horizon": null,
+      "tags": [
+        "challenge",
+        "joker"
+      ],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-07",
+      "description": "The joker’s brief against the microenterprise layer.",
+      "sources": [],
+      "body": "# Counterposition: the arbitrage layer entrenches rentiers\n\n**The joker writes:** An information-arbitrage layer that owns neither need nor supply still extracts rent from both. You have invented a middleman and called it a commons. Show me why this does not become the very rentier structure you set out to dissolve.",
+      "outbound_links": [
+        "examples/water-microenterprise",
+        "ax-microenterprise"
+      ],
+      "inbound_links": []
+    },
+    {
+      "id": "demand-capability",
+      "slug": "demand-capability",
+      "title": "Community response-capability gap",
+      "type": "entity",
+      "layer": "mechanism",
+      "parent": null,
+      "horizon": null,
+      "tags": [
+        "matching",
+        "demand"
+      ],
+      "confidence": "low",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "Constructed demand for the missing capacity to respond locally.",
+      "sources": [],
+      "body": "# Community response-capability gap\n\nDemand for capability itself.",
+      "outbound_links": [
+        "mechanisms/outcome-accelerator",
+        "goal-capability"
+      ],
+      "inbound_links": []
+    },
+    {
+      "id": "demand-mortality",
+      "slug": "demand-mortality",
+      "title": "Excess-mortality prevention need",
+      "type": "entity",
+      "layer": "mechanism",
+      "parent": null,
+      "horizon": null,
+      "tags": [
+        "matching",
+        "demand"
+      ],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "Constructed demand for interventions that prevent heat- and water-driven excess deaths.",
+      "sources": [],
+      "body": "# Excess-mortality prevention need\n\nDemand for prevention.",
+      "outbound_links": [
+        "mechanisms/outcome-accelerator",
+        "goal-mortality"
+      ],
+      "inbound_links": []
+    },
+    {
+      "id": "demand-water",
+      "slug": "demand-water",
+      "title": "Localised water-deprivation need",
+      "type": "entity",
+      "layer": "mechanism",
+      "parent": null,
+      "horizon": null,
+      "tags": [
+        "matching",
+        "demand"
+      ],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "Constructed demand: mapped, disaggregated water need at neighbourhood grain.",
+      "sources": [],
+      "body": "# Localised water-deprivation need\n\nDemand, constructed at fine grain.",
+      "outbound_links": [
+        "mechanisms/outcome-accelerator",
+        "goal-water"
+      ],
+      "inbound_links": []
+    },
+    {
+      "id": "examples/anticipatory-commons",
+      "slug": "examples/anticipatory-commons",
+      "title": "Anticipatory response commons",
+      "type": "entity",
+      "layer": "portfolio",
+      "parent": null,
+      "horizon": "far",
+      "tags": [],
+      "confidence": "low",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "Shared standing capacity to act before a shock, rather than relief after it.",
+      "sources": [],
+      "body": "# Anticipatory response commons\n\nStanding, shared capacity to act ahead of shocks.",
+      "outbound_links": [
+        "goal-capability",
+        "goal-legitimacy",
+        "ax-anticipation"
+      ],
+      "inbound_links": []
+    },
+    {
+      "id": "examples/bioregional-cognition",
+      "slug": "examples/bioregional-cognition",
+      "title": "Bioregional cognition network",
+      "type": "entity",
+      "layer": "portfolio",
+      "parent": null,
+      "horizon": "mid",
+      "tags": [],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "A distributed sensing-and-sensemaking layer that lets a bioregion perceive its own hydrological state.",
+      "sources": [],
+      "body": "# Bioregional cognition network\n\nAn indicative portfolio item. Gives a bioregion the capacity to perceive and reason about its own water state.",
+      "outbound_links": [
+        "goal-water",
+        "goal-capability",
+        "ax-microenterprise"
+      ],
+      "inbound_links": []
+    },
+    {
+      "id": "examples/cascade-atlas",
+      "slug": "examples/cascade-atlas",
+      "title": "Cascading-risk atlas",
+      "type": "entity",
+      "layer": "portfolio",
+      "parent": null,
+      "horizon": "near",
+      "tags": [],
+      "confidence": "high",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "A living map of how hydroclimatic shocks cascade across systems and borders.",
+      "sources": [],
+      "body": "# Cascading-risk atlas\n\nMaps how one shock propagates into many.",
+      "outbound_links": [
+        "goal-warming",
+        "goal-mortality"
+      ],
+      "inbound_links": [
+        "examples/neighbourhood-stack"
+      ]
+    },
+    {
+      "id": "examples/neighbourhood-stack",
+      "slug": "examples/neighbourhood-stack",
+      "title": "Neighbourhood asset stack",
+      "type": "entity",
+      "layer": "portfolio",
+      "parent": null,
+      "horizon": "mid",
+      "tags": [],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "A composable stack of local assets that raises a neighbourhood’s response capability.",
+      "sources": [],
+      "body": "# Neighbourhood asset stack\n\nComposable local assets. Depends on the cascade atlas to target where capability is thinnest.",
+      "outbound_links": [
+        "goal-capability",
+        "examples/cascade-atlas"
+      ],
+      "inbound_links": []
+    },
+    {
+      "id": "examples/outcomes-based-financing",
+      "slug": "examples/outcomes-based-financing",
+      "title": "Outcomes-based capital pool",
+      "type": "entity",
+      "layer": "portfolio",
+      "parent": null,
+      "horizon": "near",
+      "tags": [],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "A pooled capital instrument that pays against realised outcomes rather than pre-purchased outputs.",
+      "sources": [],
+      "body": "# Outcomes-based capital pool\n\nCapital that settles against outcomes, feeding the accelerator.",
+      "outbound_links": [
+        "goal-mortality",
+        "goal-food",
+        "ax-substitutability",
+        "ax-anticipation"
+      ],
+      "inbound_links": []
+    },
+    {
+      "id": "examples/water-microenterprise",
+      "slug": "examples/water-microenterprise",
+      "title": "Water-need microenterprise layer",
+      "type": "entity",
+      "layer": "portfolio",
+      "parent": null,
+      "horizon": "near",
+      "tags": [],
+      "confidence": "high",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "Information-arbitrage microenterprises that connect water need to supply without owning either side.",
+      "sources": [],
+      "body": "# Water-need microenterprise layer\n\nSmall enterprises that arbitrage information between those who need water and those who can supply it.",
+      "outbound_links": [
+        "goal-water",
+        "ax-microenterprise"
+      ],
+      "inbound_links": [
+        "challenges/arbitrage-rentiers"
+      ]
+    },
+    {
+      "id": "goal-biodiversity",
+      "slug": "goal-biodiversity",
+      "title": "Halt biodiversity collapse",
+      "type": "overview",
+      "layer": "goal",
+      "parent": null,
+      "horizon": null,
+      "tags": [],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "A parallel top-level cut of the same crisis — chosen instead of temperature.",
+      "sources": [],
+      "body": "# Halt biodiversity collapse\n\nA sibling framing at the surface level. Choosing this cut foregrounds different portfolios than a temperature target does.",
+      "outbound_links": [],
+      "inbound_links": []
+    },
+    {
+      "id": "goal-capability",
+      "slug": "goal-capability",
+      "title": "Build societal capability to respond",
+      "type": "summary",
+      "layer": "goal",
+      "parent": "Reduce climate mortality and its politics",
+      "horizon": null,
+      "tags": [],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "The deepest layer of the nest: can a society respond at all?",
+      "sources": [],
+      "body": "# Build societal capability to respond\n\nThe deepest cut. Beneath mortality-and-politics is the question of whether a society has the *capability* to respond at all. Solve here and the layers above move.\n\nRests on [[Response capability is buildable]] and [[Information arbitrage can be enterprised]].",
+      "outbound_links": [],
+      "inbound_links": [
+        "examples/bioregional-cognition",
+        "examples/anticipatory-commons",
+        "examples/neighbourhood-stack",
+        "demand-capability"
+      ]
+    },
+    {
+      "id": "goal-food",
+      "slug": "goal-food",
+      "title": "Secure food systems",
+      "type": "summary",
+      "layer": "goal",
+      "parent": "Hold warming to 1.5°C",
+      "horizon": null,
+      "tags": [],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "The parallel harm alongside water under a warming target.",
+      "sources": [],
+      "body": "# Secure food systems\n\nA sibling to water deprivation at the same level of the nest.",
+      "outbound_links": [],
+      "inbound_links": [
+        "examples/outcomes-based-financing"
+      ]
+    },
+    {
+      "id": "goal-legitimacy",
+      "slug": "goal-legitimacy",
+      "title": "Sustain political legitimacy under stress",
+      "type": "summary",
+      "layer": "goal",
+      "parent": "Reduce climate mortality and its politics",
+      "horizon": null,
+      "tags": [],
+      "confidence": "low",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "The parallel deepest-layer framing to capability.",
+      "sources": [],
+      "body": "# Sustain political legitimacy under stress\n\nA sibling to capability at the base of the nest.",
+      "outbound_links": [],
+      "inbound_links": [
+        "examples/anticipatory-commons"
+      ]
+    },
+    {
+      "id": "goal-migration",
+      "slug": "goal-migration",
+      "title": "Govern climate migration",
+      "type": "summary",
+      "layer": "goal",
+      "parent": "Prevent mass water deprivation",
+      "horizon": null,
+      "tags": [],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "The parallel consequence of water deprivation.",
+      "sources": [],
+      "body": "# Govern climate migration\n\nA sibling framing under water deprivation.",
+      "outbound_links": [],
+      "inbound_links": []
+    },
+    {
+      "id": "goal-mortality",
+      "slug": "goal-mortality",
+      "title": "Reduce climate mortality and its politics",
+      "type": "summary",
+      "layer": "goal",
+      "parent": "Prevent mass water deprivation",
+      "horizon": null,
+      "tags": [],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "Under water deprivation: who dies, and the politics of that.",
+      "sources": [],
+      "body": "# Reduce climate mortality and its politics\n\nWater deprivation resolves, one layer down, into mortality — and mortality is political before it is technical.\n\nRests on [[Anticipatory action beats reactive relief]].",
+      "outbound_links": [],
+      "inbound_links": [
+        "examples/outcomes-based-financing",
+        "examples/cascade-atlas",
+        "demand-mortality"
+      ]
+    },
+    {
+      "id": "goal-warming",
+      "slug": "goal-warming",
+      "title": "Hold warming to 1.5°C",
+      "type": "overview",
+      "layer": "goal",
+      "parent": null,
+      "horizon": null,
+      "tags": [],
+      "confidence": "high",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "The surface framing everyone reaches for first — a temperature target.",
+      "sources": [],
+      "body": "# Hold warming to 1.5°C\n\nThe obvious goal. But a temperature target is a *cut* through a deeper, nested problem space. Descend to see what actually sits underneath it.\n\nThis rests on [[Anticipatory action beats reactive relief]].",
+      "outbound_links": [],
+      "inbound_links": [
+        "examples/cascade-atlas"
+      ]
+    },
+    {
+      "id": "goal-water",
+      "slug": "goal-water",
+      "title": "Prevent mass water deprivation",
+      "type": "summary",
+      "layer": "goal",
+      "parent": "Hold warming to 1.5°C",
+      "horizon": null,
+      "tags": [],
+      "confidence": "high",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "Under the temperature target sits the lived harm: water.",
+      "sources": [],
+      "body": "# Prevent mass water deprivation\n\nBeneath the 1.5° framing, the harm people actually meet is water deprivation. Solving for temperature is not the same as solving for this.\n\nRests on [[Optionality is substitutable capital]].",
+      "outbound_links": [],
+      "inbound_links": [
+        "examples/bioregional-cognition",
+        "examples/water-microenterprise",
+        "demand-water"
+      ]
+    },
+    {
+      "id": "mechanisms/capital-pool",
+      "slug": "mechanisms/capital-pool",
+      "title": "Outcomes capital pool",
+      "type": "concept",
+      "layer": "mechanism",
+      "parent": null,
+      "horizon": null,
+      "tags": [
+        "matching",
+        "capital"
+      ],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "The pooled capital that feeds the accelerator, released against outcomes.",
+      "sources": [],
+      "body": "# Outcomes capital pool\n\nFeeds the accelerator. Releases against realised outcomes.",
+      "outbound_links": [
+        "mechanisms/outcome-accelerator",
+        "ax-substitutability"
+      ],
+      "inbound_links": []
+    },
+    {
+      "id": "mechanisms/outcome-accelerator",
+      "slug": "mechanisms/outcome-accelerator",
+      "title": "Outcome accelerator",
+      "type": "concept",
+      "layer": "mechanism",
+      "parent": null,
+      "horizon": null,
+      "tags": [
+        "matching",
+        "accelerator"
+      ],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "A dynamic matching function between a constructed demand space and a supply space, funded against outcomes.",
+      "sources": [],
+      "body": "# Outcome accelerator\n\nNot a procurement desk. A *matching function*: it continuously pairs constructed demand with available supply and settles against outcomes.\n\n## Ontological shift\nFrom buying outputs to matching for outcomes.\n\n## What it means\nDemand is constructed, not assumed; supply is discovered, not pre-listed; capital follows realised outcomes.\n\n## Plausibility pathway\nStart with one bioregion, one water-deprivation demand space, three supply archetypes.\n\n## Communication\n“You don’t buy the outcome. You fund the matching that produces it.”",
+      "outbound_links": [
+        "supply-microenterprise",
+        "supply-infrastructure",
+        "supply-civic",
+        "ax-microenterprise",
+        "ax-substitutability"
+      ],
+      "inbound_links": [
+        "mechanisms/capital-pool",
+        "demand-water",
+        "demand-mortality",
+        "demand-capability"
+      ]
+    },
+    {
+      "id": "mechanisms/procurement",
+      "slug": "mechanisms/procurement",
+      "title": "Fixed procurement (counter-model)",
+      "type": "comparison",
+      "layer": "mechanism",
+      "parent": null,
+      "horizon": null,
+      "tags": [
+        "matching",
+        "procurement"
+      ],
+      "confidence": "high",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "The incumbent model shown for contrast: cost it, buy it, pre-purchase the output.",
+      "sources": [],
+      "body": "# Fixed procurement\n\nThe counter-model. You specify the output, cost it, and buy it up front. No matching, no discovery, no outcome settlement.",
+      "outbound_links": [],
+      "inbound_links": []
+    },
+    {
+      "id": "optionality-as-infrastructure",
+      "slug": "optionality-as-infrastructure",
+      "title": "Optionality as infrastructure",
+      "type": "concept",
+      "layer": null,
+      "parent": null,
+      "horizon": null,
+      "tags": [],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "Reframing preserved future options as a kind of public infrastructure.",
+      "sources": [],
+      "body": "# Optionality as infrastructure\n\n## Ontological shift\nFrom optionality as a private hedge to optionality as shared infrastructure.\n\n## What it means\nIndicators: number of preserved reversible pathways per system.\n\n## Plausibility pathway\nPilot in one bioregion’s water system.\n\n## Communication\n“Keep the doors open, together.”",
+      "outbound_links": [
+        "ax-substitutability"
+      ],
+      "inbound_links": []
+    },
+    {
+      "id": "reflections/2026-w26",
+      "slug": "reflections/2026-w26",
+      "title": "Week 26 — nesting the water goal changed the portfolio",
+      "type": "summary",
+      "layer": null,
+      "parent": null,
+      "horizon": null,
+      "tags": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-06-29",
+      "description": "Descending from temperature to water reshuffled which portfolio items mattered.",
+      "sources": [],
+      "body": "## Deviation\nRe-cutting the goal from temperature to water deprivation moved three portfolio items up and two down.\n\n## Wider-world connection\nThe temperature framing dominates funding calls; the water framing dominates lived harm.\n\n## Early signals\nPartners engage faster with the water cut.\n\n## Counterposition\nDon’t abandon the temperature framing — hold both cuts visible at once.",
+      "outbound_links": [],
+      "inbound_links": []
+    },
+    {
+      "id": "reflections/2026-w27",
+      "slug": "reflections/2026-w27",
+      "title": "Week 27 — the accelerator wanted to become a procurement desk",
+      "type": "summary",
+      "layer": null,
+      "parent": null,
+      "horizon": null,
+      "tags": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-06",
+      "description": "This week the model drifted back toward pre-purchasing outputs.",
+      "sources": [],
+      "body": "## Deviation\nThe accelerator design kept collapsing into a procurement desk — pre-specifying and buying outputs.\n\n## Wider-world connection\nMirrors how outcome funds in the wild quietly revert to output contracts under audit pressure.\n\n## Early signals\nTwo partners asked for a fixed price list in week 26.\n\n## Counterposition\nHold the matching function open; refuse the price list; price the *match*, not the output.",
+      "outbound_links": [],
+      "inbound_links": []
+    },
+    {
+      "id": "supply-civic",
+      "slug": "supply-civic",
+      "title": "Civic response organisations",
+      "type": "entity",
+      "layer": "mechanism",
+      "parent": null,
+      "horizon": null,
+      "tags": [
+        "matching",
+        "supply"
+      ],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "Local civic bodies able to deliver response capacity on the ground.",
+      "sources": [],
+      "body": "# Civic response organisations\n\nGround-level delivery capacity.",
+      "outbound_links": [],
+      "inbound_links": [
+        "mechanisms/outcome-accelerator"
+      ]
+    },
+    {
+      "id": "supply-infrastructure",
+      "slug": "supply-infrastructure",
+      "title": "Distributed water infrastructure",
+      "type": "entity",
+      "layer": "mechanism",
+      "parent": null,
+      "horizon": null,
+      "tags": [
+        "matching",
+        "supply"
+      ],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "Modular, distributed providers of storage, capture and distribution.",
+      "sources": [],
+      "body": "# Distributed water infrastructure\n\nModular supply of storage and distribution.",
+      "outbound_links": [],
+      "inbound_links": [
+        "mechanisms/outcome-accelerator"
+      ]
+    },
+    {
+      "id": "supply-microenterprise",
+      "slug": "supply-microenterprise",
+      "title": "Information-arbitrage microenterprises",
+      "type": "entity",
+      "layer": "mechanism",
+      "parent": null,
+      "horizon": null,
+      "tags": [
+        "matching",
+        "supply"
+      ],
+      "confidence": "medium",
+      "visibility": "public",
+      "timestamp": "2026-07-08",
+      "description": "Enterprises that connect need to suppliers without owning either side of the market.",
+      "sources": [],
+      "body": "# Information-arbitrage microenterprises\n\nSupply-side connective tissue: they hold neither the need nor the resource, only the information that pairs them.",
+      "outbound_links": [],
+      "inbound_links": [
+        "mechanisms/outcome-accelerator"
+      ]
+    }
+  ]
+}
