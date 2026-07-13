@@ -6,44 +6,54 @@
  * step or a motion duration; everything routes through the variables below
  * (Tailwind's theme is wired to these — see tailwind.config.js).
  *
- * Aesthetic brief: restrained, editorial, text-forward. Generous whitespace,
- * ONE accent colour, real typographic hierarchy. No gradients-on-cards, no
- * decorative icons, no emoji.
+ * SKIN: "XCO Persona — UX Framework v1.0" (dusk). Sampled from the dusk
+ * reference image: an ink canvas under a dusk sky, deep water below, an ember
+ * sun. One accent — ember. Colour is never the sole carrier of state: every
+ * functional colour is paired in the UI with a line style, glyph or label.
+ *
+ * Type registers (the rule of register):
+ *   serif  = human voice  — Crimson Pro. Titles, prose, an argument's words.
+ *   sans   = system        — Inter. Controls, labels, interface copy.
+ *   mono   = provenance    — DM Mono. IDs, timestamps, tags, bindings, eyebrows.
+ * A machine paraphrase in serif is a violation; a person's words in mono is too.
  */
 
 :root {
-  /* ---- Colour: light (default), warm paper ------------------------------ */
-  --color-bg: #faf8f4;            /* page — warm off-white paper */
-  --color-surface: #ffffff;       /* cards, panels */
-  --color-surface-raised: #fffdf9;/* hovered / lifted surface */
-  --color-ink: #1a1815;           /* primary text — near-black, warm */
-  --color-ink-muted: #55504a;     /* secondary text */
-  --color-ink-faint: #8a847c;     /* metadata, captions */
-  --color-line: #e7e1d8;          /* hairlines, borders */
-  --color-line-strong: #cfc7ba;   /* emphasised borders */
+  /* ---- Colour: dusk (default). Ink canvas, ember accent. ---------------- */
+  --color-bg: #131f24;             /* ink — the canvas */
+  --color-surface: #1a2831;        /* card / panel over the canvas */
+  --color-surface-raised: #22343b; /* deep water — hovered / lifted */
+  --color-ink: #f1e9d8;            /* primary text — pale robe, bright */
+  --color-ink-muted: #c9c3b4;      /* secondary body text */
+  --color-ink-faint: #9fb4b8;      /* mist — metadata, provenance, captions */
+  --color-line: rgba(159, 180, 184, 0.18);   /* hairlines */
+  --color-line-strong: rgba(159, 180, 184, 0.34); /* emphasised borders */
 
-  /* The single accent. Deep, considered signal-red — editorial, not neon. */
-  --color-accent: #b23a1e;
-  --color-accent-muted: #cf7a63;  /* accent at lower emphasis */
-  --color-accent-contrast: #ffffff;/* text on an accent fill */
+  /* The single accent: ember. Consented threads, actions, active state. */
+  --color-accent: #f27f3d;
+  --color-accent-muted: #c56a40;   /* dim ember for low-emphasis strokes */
+  --color-accent-bright: #ff8a5c;  /* sunlight — links, bright hover */
+  --color-accent-contrast: #131f24;/* ink text on an ember fill */
 
-  /* Evidence status — shown honestly. These are functional, not decorative,
-     and are deliberately distinguishable without relying on hue alone
-     (the overlay also labels them in text). */
-  --color-evidenced: #2f6b4f;     /* green — grounded */
-  --color-assumptive: #9a7b1f;    /* amber — assumed */
-  --color-contested: #a23a2e;     /* red — disputed */
+  /* Sun coral — repository / lineage. Used only atmospherically (masthead),
+     never on content cards. */
+  --color-sun: #f4502e;
+  --color-sun-2: #ff8a5c;
+
+  /* Evidence status — shown honestly, distinguishable by hue + always paired
+     with a label. Tuned to sit on the dusk ground. */
+  --color-evidenced: #7bb59a;   /* grounded */
+  --color-assumptive: #e3b25c;  /* assumed */
+  --color-contested: #e0736a;   /* disputed */
 
   /* ---- Typography ------------------------------------------------------- */
-  /* Self-hosted-free system stacks: fast, private, no external requests. */
-  --font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua',
-    Georgia, Cambria, 'Times New Roman', serif;
-  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial,
-    sans-serif;
-  --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas,
-    monospace;
+  --font-serif: 'Crimson Pro', 'Iowan Old Style', Palatino, Georgia, Cambria,
+    'Times New Roman', serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
-  /* Type scale — a modular-ish editorial scale. */
+  /* Type scale — editorial. */
   --text-xs: 0.75rem;
   --text-sm: 0.8125rem;
   --text-base: 1rem;
@@ -55,72 +65,75 @@
   --text-5xl: 3.75rem;
 
   --leading-none: 1;
-  --leading-tight: 1.12;
-  --leading-snug: 1.3;
-  --leading-normal: 1.6;
+  --leading-tight: 1.1;
+  --leading-snug: 1.32;
+  --leading-normal: 1.65;
 
-  --tracking-tight: -0.02em;
+  --tracking-tight: -0.015em;
   --tracking-normal: 0;
-  --tracking-wide: 0.08em;
+  --tracking-wide: 0.2em; /* mono provenance labels run wide */
 
   /* ---- Spacing & layout ------------------------------------------------- */
-  --space-gutter: clamp(1rem, 4vw, 3rem);
-  --measure: 68ch;                /* comfortable reading measure */
-  --content-width: 76rem;         /* max app content width */
+  --space-gutter: clamp(1rem, 4vw, 2rem);
+  --measure: 66ch;
+  --content-width: 62rem; /* the framework holds a tight 880px-ish measure */
 
-  --radius-sm: 2px;
-  --radius: 3px;
-  --radius-lg: 6px;
+  --radius-sm: 3px;
+  --radius: 6px;
+  --radius-lg: 8px;
 
-  /* ---- Motion ----------------------------------------------------------- */
-  --motion-fast: 120ms;
-  --motion: 240ms;
-  --motion-slow: 480ms;
+  /* ---- Motion — restrained. One ambient element, one transition. -------- */
+  --motion-fast: 200ms;
+  --motion: 300ms;
+  --motion-slow: 600ms;
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 
-  /* ---- Elevation (used sparingly; editorial prefers lines to shadows) --- */
-  --shadow-sm: 0 1px 2px rgba(26, 24, 21, 0.04);
-  --shadow: 0 6px 24px -12px rgba(26, 24, 21, 0.18);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow: 0 18px 44px -18px rgba(0, 0, 0, 0.55);
 }
 
-/* Dark scheme — same tokens, re-valued. Editorial ink-on-charcoal. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    --color-bg: #16140f;
-    --color-surface: #1d1b16;
-    --color-surface-raised: #24211b;
-    --color-ink: #f2ece1;
-    --color-ink-muted: #b7afa2;
-    --color-ink-faint: #837c6f;
-    --color-line: #322e26;
-    --color-line-strong: #453f34;
-    --color-accent: #e2794f;
-    --color-accent-muted: #b7654a;
-    --color-accent-contrast: #16140f;
-    --color-evidenced: #6bbd93;
-    --color-assumptive: #d6b24e;
-    --color-contested: #e08475;
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-    --shadow: 0 8px 30px -14px rgba(0, 0, 0, 0.6);
+/* Paper (steward register) — the light variant. Sober, ink on paper. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    --color-bg: #f3eee2;
+    --color-surface: #ffffff;
+    --color-surface-raised: #fbf7ee;
+    --color-ink: #22313a;
+    --color-ink-muted: #4c5a62;
+    --color-ink-faint: #6e7f86;
+    --color-line: rgba(34, 49, 58, 0.14);
+    --color-line-strong: rgba(34, 49, 58, 0.26);
+    --color-accent: #b0552f;
+    --color-accent-muted: #c56a40;
+    --color-accent-bright: #c25a2a;
+    --color-accent-contrast: #ffffff;
+    --color-evidenced: #2f6b4f;
+    --color-assumptive: #9a7b1f;
+    --color-contested: #a23a2e;
+    --shadow-sm: 0 1px 2px rgba(34, 49, 58, 0.06);
+    --shadow: 0 10px 30px -14px rgba(34, 49, 58, 0.22);
   }
 }
 
 /* Explicit theme override hook (data-theme='dark'|'light' on <html>). */
-:root[data-theme='dark'] {
-  --color-bg: #16140f;
-  --color-surface: #1d1b16;
-  --color-surface-raised: #24211b;
-  --color-ink: #f2ece1;
-  --color-ink-muted: #b7afa2;
-  --color-ink-faint: #837c6f;
-  --color-line: #322e26;
-  --color-line-strong: #453f34;
-  --color-accent: #e2794f;
-  --color-accent-muted: #b7654a;
-  --color-accent-contrast: #16140f;
-  --color-evidenced: #6bbd93;
-  --color-assumptive: #d6b24e;
-  --color-contested: #e08475;
+:root[data-theme='light'] {
+  --color-bg: #f3eee2;
+  --color-surface: #ffffff;
+  --color-surface-raised: #fbf7ee;
+  --color-ink: #22313a;
+  --color-ink-muted: #4c5a62;
+  --color-ink-faint: #6e7f86;
+  --color-line: rgba(34, 49, 58, 0.14);
+  --color-line-strong: rgba(34, 49, 58, 0.26);
+  --color-accent: #b0552f;
+  --color-accent-muted: #c56a40;
+  --color-accent-bright: #c25a2a;
+  --color-accent-contrast: #ffffff;
+  --color-evidenced: #2f6b4f;
+  --color-assumptive: #9a7b1f;
+  --color-contested: #a23a2e;
+  --shadow-sm: 0 1px 2px rgba(34, 49, 58, 0.06);
+  --shadow: 0 10px 30px -14px rgba(34, 49, 58, 0.22);
 }
 
 @media (prefers-reduced-motion: reduce) {

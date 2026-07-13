@@ -25,7 +25,10 @@ export default {
       'line-strong': 'var(--color-line-strong)',
       accent: 'var(--color-accent)',
       'accent-muted': 'var(--color-accent-muted)',
+      'accent-bright': 'var(--color-accent-bright)',
       'accent-contrast': 'var(--color-accent-contrast)',
+      sun: 'var(--color-sun)',
+      'sun-2': 'var(--color-sun-2)',
       // Evidence-status semantics (used honestly by the axioms overlay)
       evidenced: 'var(--color-evidenced)',
       assumptive: 'var(--color-assumptive)',

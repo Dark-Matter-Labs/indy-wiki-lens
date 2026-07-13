@@ -53,7 +53,8 @@
   .prose h2,
   .prose h3,
   .prose h4 {
-    font-family: var(--font-sans);
+    font-family: var(--font-serif); /* human voice register */
+    font-weight: 500;
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-tight);
     color: var(--color-ink);
@@ -64,7 +65,7 @@
   .prose h4 { font-size: var(--text-lg); margin-top: 1.2em; }
   .prose p { text-wrap: pretty; }
   .prose a {
-    color: var(--color-accent);
+    color: var(--color-accent-bright);
     text-decoration: underline;
     text-underline-offset: 2px;
     text-decoration-thickness: 1px;
@@ -112,13 +113,25 @@
     margin: 2em 0;
   }
 
-  /* Small caps eyebrow label used across views for the "argument move". */
+  /* Eyebrow — provenance register (mono), ember, naming the "argument move".
+     Matches the framework's section eyebrows. */
   .eyebrow {
-    font-family: var(--font-sans);
+    font-family: var(--font-mono);
     font-size: var(--text-xs);
     letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
-    color: var(--color-ink-faint);
-    font-weight: 600;
+    color: var(--color-accent);
+    font-weight: 400;
+  }
+
+  /* Ember rule — the framework's section divider: a fading ember hairline. */
+  .rule {
+    height: 2px;
+    border: 0;
+    background: linear-gradient(
+      90deg,
+      var(--color-accent),
+      rgba(242, 127, 61, 0) 68%
+    );
   }
 }

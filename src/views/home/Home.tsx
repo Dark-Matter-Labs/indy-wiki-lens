@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useGraph } from '@/lib/graph'
-import { Eyebrow } from '@/components/ui/atoms'
+import { Masthead } from '@/components/shell/Masthead'
 
 const SEQUENCE = [
   {
@@ -51,16 +51,12 @@ export function Home() {
 
   return (
     <div>
-      <section className="mx-auto max-w-measure py-8">
-        <Eyebrow>An argument interface</Eyebrow>
-        <h1 className="mt-3 font-serif text-5xl leading-none tracking-tight text-ink">
-          A way to walk the argument.
-        </h1>
-        <p className="mt-6 text-lg leading-normal text-ink-muted">
+      <Masthead />
+
+      <section className="mx-auto mt-10 max-w-measure">
+        <p className="text-lg leading-normal text-ink-muted">
           This is not a dashboard and not a documentation site. Each view makes
-          one move in a sequence: define the problem, show it is possible, show
-          how, show when — and, underneath all of it, expose the assumptions the
-          whole thing rests on. Turn on{' '}
+          one move in a sequence. Turn on{' '}
           <span className="font-medium text-ink">Assumptions</span> on any view
           to see the load-bearing axioms and how honest the evidence for each
           one really is.

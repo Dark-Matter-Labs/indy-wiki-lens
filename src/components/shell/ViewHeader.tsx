@@ -14,11 +14,12 @@ export function ViewHeader({
   return (
     <header className="mb-10 max-w-measure">
       <Eyebrow>{move}</Eyebrow>
-      <h1 className="mt-2 font-serif text-4xl leading-tight tracking-tight text-ink">
+      <h1 className="mt-2 font-serif text-4xl font-normal leading-tight tracking-tight text-ink">
         {title}
       </h1>
+      <hr className="rule mb-0 mt-5 max-w-[min(100%,32rem)]" />
       {children && (
-        <div className="mt-3 text-lg leading-normal text-ink-muted">
+        <div className="mt-5 text-lg leading-normal text-ink-muted">
           {children}
         </div>
       )}
