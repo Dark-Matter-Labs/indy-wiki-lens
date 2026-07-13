@@ -1,0 +1,32 @@
+# Netlify configuration for the Indy Wiki Lens.
+#
+# Deploy handshake with the wiki repo:
+#   1. The wiki repo produces export/wiki.public.json on its `export` branch.
+#   2. On change, the wiki repo pings this site's Netlify build hook (DEPLOY_HOOK).
+#   3. Netlify runs `npm run build`; the `prebuild` step fetches the latest
+#      public export into public/data/wiki.json, then Vite builds the SPA.
+#
+# Required build environment variables (Site settings -> Environment variables):
+#   GITHUB_TOKEN      read-only token with access to the private wiki repo
+#   WIKI_REPO         default Dark-Matter-Labs/indy-llm-wiki
+#   WIKI_BRANCH       default export
+#   WIKI_PUBLIC_PATH  default export/wiki.public.json
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# SPA fallback so deep links (e.g. /p/<slug>, /goals) resolve to index.html.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# The generated sitemap and robots stay at the root.
+[[headers]]
+  for = "/data/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

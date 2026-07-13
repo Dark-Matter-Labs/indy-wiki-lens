@@ -1,0 +1,19 @@
+node_modules
+dist
+dist-ssr
+*.local
+.env
+.env.*
+!.env.example
+.DS_Store
+.vite
+
+# Fetched at build time from the wiki export branch; never commit wiki content.
+public/data/wiki.json
+
+# Generated at build time from the fetched data.
+public/sitemap.xml
+public/robots.txt
+
+# TypeScript build info
+*.tsbuildinfo

@@ -1,0 +1,132 @@
+/**
+ * DESIGN TOKENS — the single source of truth for the look of the lens.
+ *
+ * A designer can reskin the entire site by editing this file alone. Nothing
+ * else in the codebase hard-codes a colour, a font, a type size, a spacing
+ * step or a motion duration; everything routes through the variables below
+ * (Tailwind's theme is wired to these — see tailwind.config.js).
+ *
+ * Aesthetic brief: restrained, editorial, text-forward. Generous whitespace,
+ * ONE accent colour, real typographic hierarchy. No gradients-on-cards, no
+ * decorative icons, no emoji.
+ */
+
+:root {
+  /* ---- Colour: light (default), warm paper ------------------------------ */
+  --color-bg: #faf8f4;            /* page — warm off-white paper */
+  --color-surface: #ffffff;       /* cards, panels */
+  --color-surface-raised: #fffdf9;/* hovered / lifted surface */
+  --color-ink: #1a1815;           /* primary text — near-black, warm */
+  --color-ink-muted: #55504a;     /* secondary text */
+  --color-ink-faint: #8a847c;     /* metadata, captions */
+  --color-line: #e7e1d8;          /* hairlines, borders */
+  --color-line-strong: #cfc7ba;   /* emphasised borders */
+
+  /* The single accent. Deep, considered signal-red — editorial, not neon. */
+  --color-accent: #b23a1e;
+  --color-accent-muted: #cf7a63;  /* accent at lower emphasis */
+  --color-accent-contrast: #ffffff;/* text on an accent fill */
+
+  /* Evidence status — shown honestly. These are functional, not decorative,
+     and are deliberately distinguishable without relying on hue alone
+     (the overlay also labels them in text). */
+  --color-evidenced: #2f6b4f;     /* green — grounded */
+  --color-assumptive: #9a7b1f;    /* amber — assumed */
+  --color-contested: #a23a2e;     /* red — disputed */
+
+  /* ---- Typography ------------------------------------------------------- */
+  /* Self-hosted-free system stacks: fast, private, no external requests. */
+  --font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua',
+    Georgia, Cambria, 'Times New Roman', serif;
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial,
+    sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas,
+    monospace;
+
+  /* Type scale — a modular-ish editorial scale. */
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 1rem;
+  --text-lg: 1.1875rem;
+  --text-xl: 1.4375rem;
+  --text-2xl: 1.75rem;
+  --text-3xl: 2.1875rem;
+  --text-4xl: 2.875rem;
+  --text-5xl: 3.75rem;
+
+  --leading-none: 1;
+  --leading-tight: 1.12;
+  --leading-snug: 1.3;
+  --leading-normal: 1.6;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.08em;
+
+  /* ---- Spacing & layout ------------------------------------------------- */
+  --space-gutter: clamp(1rem, 4vw, 3rem);
+  --measure: 68ch;                /* comfortable reading measure */
+  --content-width: 76rem;         /* max app content width */
+
+  --radius-sm: 2px;
+  --radius: 3px;
+  --radius-lg: 6px;
+
+  /* ---- Motion ----------------------------------------------------------- */
+  --motion-fast: 120ms;
+  --motion: 240ms;
+  --motion-slow: 480ms;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* ---- Elevation (used sparingly; editorial prefers lines to shadows) --- */
+  --shadow-sm: 0 1px 2px rgba(26, 24, 21, 0.04);
+  --shadow: 0 6px 24px -12px rgba(26, 24, 21, 0.18);
+}
+
+/* Dark scheme — same tokens, re-valued. Editorial ink-on-charcoal. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg: #16140f;
+    --color-surface: #1d1b16;
+    --color-surface-raised: #24211b;
+    --color-ink: #f2ece1;
+    --color-ink-muted: #b7afa2;
+    --color-ink-faint: #837c6f;
+    --color-line: #322e26;
+    --color-line-strong: #453f34;
+    --color-accent: #e2794f;
+    --color-accent-muted: #b7654a;
+    --color-accent-contrast: #16140f;
+    --color-evidenced: #6bbd93;
+    --color-assumptive: #d6b24e;
+    --color-contested: #e08475;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow: 0 8px 30px -14px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* Explicit theme override hook (data-theme='dark'|'light' on <html>). */
+:root[data-theme='dark'] {
+  --color-bg: #16140f;
+  --color-surface: #1d1b16;
+  --color-surface-raised: #24211b;
+  --color-ink: #f2ece1;
+  --color-ink-muted: #b7afa2;
+  --color-ink-faint: #837c6f;
+  --color-line: #322e26;
+  --color-line-strong: #453f34;
+  --color-accent: #e2794f;
+  --color-accent-muted: #b7654a;
+  --color-accent-contrast: #16140f;
+  --color-evidenced: #6bbd93;
+  --color-assumptive: #d6b24e;
+  --color-contested: #e08475;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0ms;
+    --motion: 0ms;
+    --motion-slow: 0ms;
+  }
+}
