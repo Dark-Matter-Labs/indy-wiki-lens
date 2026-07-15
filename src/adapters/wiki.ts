@@ -31,6 +31,7 @@ import type {
   GraphMeta,
   Horizon,
   Journey,
+  LadderRung,
   MatchRole,
   Page,
   RawExport,
@@ -56,6 +57,55 @@ function evidenceFromTags(tags: string[]): EvidenceStatus | null {
   }
   // Axioms with no explicit status are honestly shown as assumptive.
   return null
+}
+
+/**
+ * Map a page onto a rung of the QNO Knowledge Ladder.
+ *
+ * The wiki carries NO explicit epistemic-status field. QNO's own rule is that a
+ * rung "derives from epistemic maturity and evidence-declaration completeness"
+ * — so the lens derives it, transparently, from two signals the export DOES
+ * carry:
+ *
+ *   • epistemic maturity   ≈ `confidence`  (low → medium → high)
+ *   • evidence-declaration  ≈ `type`        (a `synthesis` declares a matured,
+ *                                            integrated argument; a `summary`
+ *                                            only reports)
+ *
+ * Priority, most authoritative first:
+ *   1. An EXPLICIT epistemic tag, if the wiki ever adds one. This always wins,
+ *      and it is the single change that would make the ladder EXACT instead of
+ *      derived (see EPISTEMIC_TAG below for the recognised vocabulary).
+ *   2. Axioms → Assumption. Axioms ARE the load-bearing assumptions, so this
+ *      keeps the ladder consistent with the Axioms view.
+ *   3. Otherwise confidence × type:
+ *        low                       → Hunch          (an early intuition)
+ *        medium                    → Hypothesis     (being worked / testable)
+ *        high & type = synthesis   → Refined Claim  (matured, integrated)
+ *        high                      → Claim          (asserted with confidence)
+ *
+ * This is a documented heuristic, not ground truth — the view says so plainly.
+ */
+const EPISTEMIC_TAG: Record<string, LadderRung> = {
+  'refined-claim': 'refined-claim',
+  refined: 'refined-claim',
+  claim: 'claim',
+  hypothesis: 'hypothesis',
+  hunch: 'hunch',
+  assumption: 'assumption',
+  axiom: 'assumption',
+}
+
+export function rungFor(page: Page): LadderRung {
+  for (const t of page.tags) {
+    const explicit = EPISTEMIC_TAG[t]
+    if (explicit) return explicit
+  }
+  if (page.isAxiom) return 'assumption'
+  if (page.confidence === 'low') return 'hunch'
+  if (page.confidence === 'medium') return 'hypothesis'
+  if (page.type === 'synthesis') return 'refined-claim'
+  return 'claim'
 }
 
 function matchRoleFromTags(tags: string[]): MatchRole {
@@ -235,6 +285,38 @@ export class WikiGraph {
 
   axioms(): Page[] {
     return this.pages.filter((p) => p.isAxiom)
+  }
+
+  /* ---- knowledge ladder (QNO) ------------------------------------------ */
+
+  /**
+   * Listable pages grouped by their derived QNO ladder rung (see `rungFor`).
+   * Unlisted pages are excluded, matching every other public selector. Within a
+   * rung, pages are ordered by confidence then title so the strongest surface
+   * first.
+   */
+  ladder(): Record<LadderRung, Page[]> {
+    const CONF_RANK: Record<Page['confidence'], number> = {
+      high: 0,
+      medium: 1,
+      low: 2,
+    }
+    const rungs: Record<LadderRung, Page[]> = {
+      assumption: [],
+      hunch: [],
+      hypothesis: [],
+      claim: [],
+      'refined-claim': [],
+    }
+    for (const p of this.listable) rungs[rungFor(p)].push(p)
+    for (const key of Object.keys(rungs) as LadderRung[]) {
+      rungs[key].sort(
+        (a, b) =>
+          CONF_RANK[a.confidence] - CONF_RANK[b.confidence] ||
+          a.title.localeCompare(b.title),
+      )
+    }
+    return rungs
   }
 
   /** Everything downstream of an axiom: pages that rest on it (transitively). */

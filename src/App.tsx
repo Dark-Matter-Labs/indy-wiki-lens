@@ -8,6 +8,7 @@ import { Matching } from '@/views/matching/Matching'
 import { Sequence } from '@/views/sequence/Sequence'
 import { Feed } from '@/views/feed/Feed'
 import { Axioms } from '@/views/axioms/Axioms'
+import { Ladder } from '@/views/ladder/Ladder'
 import { PageView } from '@/views/page/PageView'
 import { NotFound } from '@/views/NotFound'
 import { LoadError, LoadingScreen } from '@/components/shell/LoadStates'
@@ -29,6 +30,7 @@ export function App() {
           <Route path="/sequence" element={<Sequence />} />
           <Route path="/feed" element={<Feed />} />
           <Route path="/axioms" element={<Axioms />} />
+          <Route path="/ladder" element={<Ladder />} />
           <Route path="/p/*" element={<PageView />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

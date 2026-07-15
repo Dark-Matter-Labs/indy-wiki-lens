@@ -150,6 +150,9 @@ function Footer() {
           )}
         </p>
         <nav className="flex gap-4">
+          <Link to="/ladder" className="hover:text-ink">
+            Ladder
+          </Link>
           <Link to="/axioms" className="hover:text-ink">
             Axioms
           </Link>

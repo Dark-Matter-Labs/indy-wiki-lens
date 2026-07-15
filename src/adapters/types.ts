@@ -61,6 +61,20 @@ export interface RawExport {
 /** Evidence honesty for axioms. Distinct from `confidence`. */
 export type EvidenceStatus = 'evidenced' | 'assumptive' | 'contested'
 
+/**
+ * A rung of the QNO Knowledge Ladder
+ * (https://junglepublics.github.io/dml/learning-system-v3.html), ordered by
+ * epistemic maturity. The wiki has NO explicit epistemic-status field, so the
+ * lens DERIVES a page's rung — see `rungFor` in the adapter. An explicit
+ * epistemic tag, when present, always overrides the derivation.
+ */
+export type LadderRung =
+  | 'assumption'
+  | 'hunch'
+  | 'hypothesis'
+  | 'claim'
+  | 'refined-claim'
+
 /** Role of a node within the two-sided matching mechanism. */
 export type MatchRole =
   | 'demand'
