@@ -1,4 +1,47 @@
 {
   "schema": 1,
-  "snapshots": []
+  "snapshots": [
+    {
+      "at": "2026-07-16T16:11:06.542Z",
+      "exportedAt": "2026-07-16T16:09:59.545619+00:00",
+      "hash": "1d54f03302b5c481",
+      "pages": 278,
+      "links": 405,
+      "tags": 859,
+      "axioms": 0,
+      "avgDegree": 2.914,
+      "vec": {
+        "type:summary": 0.9460431654676259,
+        "type:synthesis": 0.017985611510791366,
+        "type:concept": 0.02877697841726619,
+        "type:entity": 0.007194244604316547,
+        "layer:portfolio": 0.017985611510791366,
+        "layer:mechanism": 0.025179856115107913,
+        "layer:goal": 0.007194244604316547,
+        "layer:unassigned": 0.9460431654676259,
+        "layer:sequence": 0.0035971223021582736,
+        "conf:medium": 0.9784172661870504,
+        "conf:high": 0.017985611510791366,
+        "conf:low": 0.0035971223021582736,
+        "hz:none": 0.9964028776978417,
+        "hz:near": 0.0035971223021582736
+      },
+      "centers": [
+        "indy-johar-substack",
+        "optionality",
+        "civilizational-optionality",
+        "portfolio-engineering",
+        "option-fields",
+        "systemic-risk-projection-model",
+        "prophecy-seeding-campaign",
+        "nutrition-cascade-dynamic-model",
+        "witnessing-grammar",
+        "camden-nutrition-risk-model",
+        "substack-making-free-markets-and-the-needs-summary",
+        "substack-on-portfolios-the-difference-between-summary",
+        "substack-prophecies-entrapments-of-the-future-summary",
+        "substack-the-portfolio-pathways-holding-multiple-summary"
+      ]
+    }
+  ]
 }
