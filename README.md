@@ -75,13 +75,13 @@ Set these as Netlify build environment variables (and in a local `.env` for deve
 | `GITHUB_TOKEN` | — | Read-only token with access to the (private) wiki repo. Required in production. |
 | `WIKI_REPO` | `Dark-Matter-Labs/indy-llm-wiki` | The wiki repository. |
 | `WIKI_BRANCH` | `export` | Branch carrying the export. |
-| `WIKI_PUBLIC_PATH` | `export/wiki.public.json` | Path to the public export. **Never point this at `wiki.json`.** |
+| `WIKI_PUBLIC_PATH` | `wiki.public.json` | Path to the public export (root of the `export` branch). **Never point this at `wiki.json`.** |
 | `SITE_URL` | `$URL` (Netlify) | Absolute origin, for sitemap/robots. |
 | `USE_SAMPLE_DATA` | — | If truthy, build against the local dev fixture instead of fetching. |
 
 ## The deploy-hook handshake with the wiki repo
 
-1. The wiki repo runs `tools/export.py`, producing `export/wiki.public.json` on its `export` branch.
+1. The wiki repo runs `tools/export.py`, producing `wiki.public.json` at the root of its `export` branch.
 2. On change, the wiki repo pings this site's **Netlify build hook** (`DEPLOY_HOOK`).
 3. Netlify runs `npm run build`. The `prebuild` step (`fetch-data.mjs`) fetches the latest public export into `public/data/wiki.json` and runs the privacy check; `gen-static.mjs` writes `sitemap.xml` + `robots.txt`; then Vite builds the SPA.
 4. The footer records the export timestamp: "knowledge as of …".

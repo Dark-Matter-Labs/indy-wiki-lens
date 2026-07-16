@@ -22,7 +22,7 @@ const ROOT = resolve(__dirname, '..')
 const CONFIG = {
   repo: process.env.WIKI_REPO || 'Dark-Matter-Labs/indy-llm-wiki',
   branch: process.env.WIKI_BRANCH || 'export',
-  path: process.env.WIKI_PUBLIC_PATH || 'export/wiki.public.json',
+  path: process.env.WIKI_PUBLIC_PATH || 'wiki.public.json',
   token: process.env.GITHUB_TOKEN || '',
   useSample: /^(1|true|yes)$/i.test(process.env.USE_SAMPLE_DATA || ''),
 }
