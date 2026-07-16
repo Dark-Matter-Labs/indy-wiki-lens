@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useGraph } from '@/lib/graph'
 import { ViewHeader } from '@/components/shell/ViewHeader'
@@ -31,8 +31,11 @@ export function Sequence() {
   const [connectors, setConnectors] = useState<Connector[]>([])
   const [dims, setDims] = useState({ w: 0, h: 0 })
 
-  const lanes = graph?.horizonLanes()
-  const edges = graph?.sequenceEdges() ?? []
+  // Memoised: these selectors build fresh arrays each call. Without this,
+  // `measure` (and the layout effect keyed on it) gets a new identity every
+  // render, re-runs, setStates, and re-renders — an infinite loop (React #185).
+  const lanes = useMemo(() => graph?.horizonLanes(), [graph])
+  const edges = useMemo(() => graph?.sequenceEdges() ?? [], [graph])
   const populated = lanes ? LANES.some((l) => lanes[l].length > 0) : false
 
   const measure = useCallback(() => {
