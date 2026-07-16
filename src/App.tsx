@@ -9,6 +9,7 @@ import { Sequence } from '@/views/sequence/Sequence'
 import { Feed } from '@/views/feed/Feed'
 import { Axioms } from '@/views/axioms/Axioms'
 import { Ladder } from '@/views/ladder/Ladder'
+import { Observatory } from '@/views/observatory/Observatory'
 import { PageView } from '@/views/page/PageView'
 import { NotFound } from '@/views/NotFound'
 import { LoadError, LoadingScreen } from '@/components/shell/LoadStates'
@@ -31,6 +32,7 @@ export function App() {
           <Route path="/feed" element={<Feed />} />
           <Route path="/axioms" element={<Axioms />} />
           <Route path="/ladder" element={<Ladder />} />
+          <Route path="/observatory" element={<Observatory />} />
           <Route path="/p/*" element={<PageView />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
