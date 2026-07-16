@@ -17,6 +17,13 @@ Every wiki page also has a canonical route at **`/p/<slug>`** so views can deep-
 
 The **Assumptions overlay** is a persistent toggle present on every view. When active, each element reveals which axioms it rests on (with evidence status shown honestly); selecting an axiom highlights everything downstream of it. Its secondary mode is the four-step **journey** for a single page (ontological shift → what it practically means → plausibility pathway → communication), rendered when the page body marks those steps and degrading to the plain body otherwise.
 
+**Beyond the five** (linked from the footer) are two experimental lenses over the same data:
+
+| Route | View | What it does |
+|-------|------|--------------|
+| `/observatory` | **The Observatory** | The wiki's vital signs — scale, update cadence, structure, and centre of mass (link-centrality) from the latest export, plus a **Trajectory** panel that plots how the corpus moves over successive exports. See [The trajectory archive](#the-trajectory-archive-observatory). |
+| `/ladder` | **Knowledge Ladder** | Sorts every page onto the QNO five rungs (Assumption → Hunch → Hypothesis → Claim → Refined Claim). The wiki has no epistemic-status field, so the rung is *derived* (`rungFor` in the adapter: an explicit epistemic tag wins, else axiom → Assumption, else confidence × type); the view says so plainly. |
+
 ## Architecture
 
 ```
@@ -32,10 +39,16 @@ src/
     page/                 # Markdown renderer (wiki-links + DOMPurify).
     axiom-overlay/         # Rests-on chips, evidence legend, highlight hook.
     ui/                    # Presentational atoms (badges, empty state, eyebrow).
-  views/{goalspace,portfolio,matching,sequence,feed,axioms,page,home}/
+  adapters/observatory.ts # Pure vital-signs aggregation for the Observatory.
+  adapters/trajectory.ts  # Pure consumer of the snapshot archive → motion metrics.
+  views/{goalspace,portfolio,matching,sequence,feed,axioms,page,home,
+         observatory,ladder}/
 scripts/
   fetch-data.mjs          # Build-time fetch of the PUBLIC export + privacy check.
   gen-static.mjs          # Build-time sitemap.xml + robots.txt (excludes unlisted).
+  archive-snapshot.mjs    # Digests each export into public/data/history.json (CI).
+.github/workflows/
+  archive.yml             # Daily job: fetch export → archive digest → commit.
 netlify.toml
 ```
 
@@ -74,6 +87,18 @@ Set these as Netlify build environment variables (and in a local `.env` for deve
 4. The footer records the export timestamp: "knowledge as of …".
 
 To wire it up: create a build hook in Netlify (Site settings → Build & deploy → Build hooks) and store its URL as the secret **`DEPLOY_HOOK_URL`** in the wiki repo (Settings → Secrets and variables → Actions). The wiki's `.github/workflows/export.yml` already contains the notify step — it curls that hook after force-pushing a new export, gated on the secret being present — so no workflow change is needed on either side.
+
+## The trajectory archive (Observatory)
+
+The Observatory's **Trajectory** panel plots how the corpus *moves* between exports — the read-side analog of the wiki's own [repository-gravity](https://dark-matter-labs.github.io/indy-llm-wiki/repository-gravity.html) instrument. Because the wiki **force-pushes** its export branch (there is no accumulated git history to reconstruct from), motion can only be measured *going forward*, by archiving each export as it appears:
+
+1. A daily GitHub Action (`.github/workflows/archive.yml`) runs `fetch-data.mjs`, then `archive-snapshot.mjs`.
+2. `archive-snapshot.mjs` computes a compact, **privacy-safe digest** of the public export — aggregate counts, normalised category fractions, and public centre slugs; **never prose or private data** — and appends it to `public/data/history.json`. It re-runs the privacy guard, skips dev fixtures, and dedupes by content hash (an unchanged export adds nothing).
+3. If `history.json` changed, the Action commits it back; Netlify redeploys, and the panel reads the series to show displacement, direction persistence, growth, and centre turnover. Provenance-based reads (Indy's *unmoored* / *captured*) are deliberately omitted — they need edit-level history the export doesn't carry.
+
+`history.json` ships **empty** and fills forward; the panel shows an honest empty state until at least two distinct exports are archived. Unlike `wiki.json` it *is* committed — it holds only derived public metadata, no content.
+
+**Required secret:** add **`WIKI_TOKEN`** — a token with read access to the private wiki repo — under this repo's **Settings → Secrets and variables → Actions**. Without it the fetch falls back to the dev fixture (which the archiver skips), so the job is a harmless no-op. Optional repo **variables** `WIKI_REPO` / `WIKI_BRANCH` / `WIKI_PUBLIC_PATH` override the script defaults. Trigger the first run from **Actions → archive-snapshot → Run workflow**; thereafter it runs daily. The wiki repo may also `repository_dispatch` a `wiki-export` event here to archive the moment it changes.
 
 ## Local development
 
