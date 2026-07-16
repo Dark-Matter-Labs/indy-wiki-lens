@@ -91,3 +91,16 @@ export function EmptyState({
     </div>
   )
 }
+
+/**
+ * A quiet, honest coverage banner: how much of the corpus a view can actually
+ * show. Sits above a thinly-populated view so "it looks empty" reads as "the
+ * wiki isn't tagged for this yet" rather than "the lens is broken".
+ */
+export function CoverageNote({ children }: { children: ReactNode }) {
+  return (
+    <p className="mx-auto mb-8 max-w-content rounded-sm border border-dashed border-line-strong bg-surface px-4 py-2.5 font-mono text-xs leading-relaxed text-ink-faint">
+      {children}
+    </p>
+  )
+}

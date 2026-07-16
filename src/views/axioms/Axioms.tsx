@@ -16,6 +16,7 @@ export function Axioms() {
   if (!graph) return null
 
   const axioms = graph.axioms()
+  const total = graph.pages.length
 
   return (
     <div>
@@ -31,11 +32,19 @@ export function Axioms() {
           title="No axioms in this export yet"
           hint={
             <>
-              Nodes tagged <code className="font-mono">axiom</code> (with an
-              optional{' '}
+              {total > 0 ? (
+                <>None of the {total} pages are tagged{' '}</>
+              ) : (
+                <>Nodes tagged{' '}</>
+              )}
+              <code className="font-mono">axiom</code> (with an optional{' '}
               <code className="font-mono">status:evidenced|assumptive|contested</code>{' '}
-              tag) will appear here, and every element that links to one will show
-              that it rests on it.
+              tag) yet. Once tagged, each appears here and every element that
+              links to one shows that it rests on it. The{' '}
+              <Link to="/observatory" className="text-accent hover:underline">
+                Observatory
+              </Link>{' '}
+              reads all {total || ''} pages regardless of tagging.
             </>
           }
         />

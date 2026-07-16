@@ -2,7 +2,7 @@ import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useGraph } from '@/lib/graph'
 import { ViewHeader } from '@/components/shell/ViewHeader'
-import { ConfidenceDots, EmptyState } from '@/components/ui/atoms'
+import { ConfidenceDots, CoverageNote, EmptyState } from '@/components/ui/atoms'
 import { HORIZON_LABELS } from '@/adapters/wiki'
 import type { Horizon, Page } from '@/adapters/types'
 
@@ -37,6 +37,8 @@ export function Sequence() {
   const lanes = useMemo(() => graph?.horizonLanes(), [graph])
   const edges = useMemo(() => graph?.sequenceEdges() ?? [], [graph])
   const populated = lanes ? LANES.some((l) => lanes[l].length > 0) : false
+  const total = graph?.pages.length ?? 0
+  const sequenced = lanes ? LANES.reduce((n, l) => n + lanes[l].length, 0) : 0
 
   const measure = useCallback(() => {
     const container = containerRef.current
@@ -91,17 +93,37 @@ export function Sequence() {
           title="Nothing is placed on a horizon yet"
           hint={
             <>
-              Give nodes a <code className="font-mono">horizon</code> of{' '}
-              <code className="font-mono">near</code>,{' '}
+              {total > 0 ? (
+                <>
+                  None of the {total} pages in the wiki carry a{' '}
+                  <code className="font-mono">horizon</code> yet.{' '}
+                </>
+              ) : null}
+              Tag pages <code className="font-mono">near</code>,{' '}
               <code className="font-mono">mid</code> or{' '}
-              <code className="font-mono">far</code> and they will fall into these
-              lanes. A link from an earlier to a later horizon is drawn as a
-              dependency arrow.
+              <code className="font-mono">far</code> and they fall into these
+              lanes; a link from an earlier to a later horizon becomes a
+              dependency arrow. Meanwhile the{' '}
+              <Link to="/observatory" className="text-accent hover:underline">
+                Observatory
+              </Link>{' '}
+              reads the whole corpus regardless of tagging.
             </>
           }
         />
       ) : (
-        <div ref={containerRef} className="relative">
+        <>
+          {total > 0 && sequenced < total && (
+            <CoverageNote>
+              {sequenced} of {total} pages carry a horizon — the rest aren&rsquo;t
+              sequenced yet, so this is a partial view. See all {total} in the{' '}
+              <Link to="/observatory" className="text-accent hover:underline">
+                Observatory
+              </Link>
+              .
+            </CoverageNote>
+          )}
+          <div ref={containerRef} className="relative">
           <svg
             className="pointer-events-none absolute inset-0 h-full w-full"
             width={dims.w}
@@ -148,7 +170,8 @@ export function Sequence() {
               />
             ))}
           </div>
-        </div>
+          </div>
+        </>
       )}
     </div>
   )
