@@ -5,6 +5,8 @@ import { ViewHeader } from '@/components/shell/ViewHeader'
 import { Eyebrow, EmptyState } from '@/components/ui/atoms'
 import { computeObservatory } from '@/adapters/observatory'
 import type { GravityCenter } from '@/adapters/observatory'
+import { computeTrajectory } from '@/adapters/trajectory'
+import type { SnapshotHistory, Trajectory as TrajectoryT } from '@/adapters/trajectory'
 import type { Page } from '@/adapters/types'
 
 /**
@@ -75,6 +77,9 @@ export function Observatory() {
           <MiniList title="Longest untouched" pages={cadence.stalest} />
         </div>
       </Section>
+
+      {/* ---- trajectory (motion across archived exports) ---- */}
+      <TrajectorySection />
 
       {/* ---- gravity ---- */}
       <Section
@@ -151,11 +156,189 @@ export function Observatory() {
       </Section>
 
       <footer className="mx-auto mt-16 max-w-content border-t border-line pt-6 font-mono text-xs leading-relaxed text-ink-faint">
-        A single-snapshot instrument. To measure true gravity and trajectory —
-        displacement, direction persistence, novelty against the existing mass —
-        the lens would archive each export it fetches, turning these still
-        readings into motion. That upgrade is one build step away.
+        Scale, cadence, structure and centre of mass are read from the single
+        latest export. Trajectory is read from the archive of past exports — a
+        daily job digests each new export into public/data/history.json, so
+        these readings become motion as the wiki keeps moving.
       </footer>
+    </div>
+  )
+}
+
+/* ---- trajectory --------------------------------------------------------- */
+
+/** Load the committed snapshot archive (grows over time via the daily job). */
+function useHistory(): SnapshotHistory | null | 'loading' {
+  const [state, setState] = useState<SnapshotHistory | null | 'loading'>('loading')
+  useEffect(() => {
+    let alive = true
+    fetch(`${import.meta.env.BASE_URL}data/history.json`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((h) => alive && setState(h))
+      .catch(() => alive && setState(null))
+    return () => {
+      alive = false
+    }
+  }, [])
+  return state
+}
+
+function TrajectorySection() {
+  const history = useHistory()
+  const traj = useMemo<TrajectoryT | null>(
+    () => (history && history !== 'loading' ? computeTrajectory(history) : null),
+    [history],
+  )
+  const archived =
+    history && history !== 'loading' ? history.snapshots.length : 0
+
+  return (
+    <Section
+      eyebrow="Trajectory"
+      title="How the corpus is moving"
+      note="Read from the archive of past exports, not a single snapshot. Each export shifts the shape of the knowledge; this is that motion — how far it travels and whether it holds a heading. Provenance-based reads (Indy's unmoored / captured) need edit-level history the export doesn't carry, so they're left out honestly."
+    >
+      {!traj || traj.legs.length === 0 ? (
+        <div className="rounded border border-dashed border-line-strong bg-surface px-5 py-8 text-center">
+          <p className="text-ink">
+            {archived === 0
+              ? 'No exports archived yet.'
+              : `${archived} export${archived === 1 ? '' : 's'} archived.`}
+          </p>
+          <p className="mx-auto mt-2 max-w-measure text-sm text-ink-muted">
+            Motion appears once a second distinct export is archived. The daily
+            job digests each new export into the history — come back as the wiki
+            keeps moving.
+          </p>
+        </div>
+      ) : (
+        <TrajectoryBody traj={traj} archived={archived} />
+      )}
+    </Section>
+  )
+}
+
+const HEALTH_LABEL: Record<string, string> = {
+  moving: 'In motion',
+  stuck: 'Holding still',
+  accelerating: 'Accelerating',
+}
+
+function TrajectoryBody({ traj, archived }: { traj: TrajectoryT; archived: number }) {
+  const last = traj.legs[traj.legs.length - 1]
+  return (
+    <div>
+      {traj.latest && (
+        <div className="mb-6 flex flex-wrap items-center gap-3">
+          <span className="rounded-sm border border-accent bg-accent px-2 py-0.5 font-mono text-xs uppercase tracking-wide text-accent-contrast">
+            {HEALTH_LABEL[traj.latest.health] ?? traj.latest.health}
+          </span>
+          <span className="max-w-measure text-sm text-ink-muted">
+            {traj.latest.note}
+          </span>
+        </div>
+      )}
+
+      <MotionChart traj={traj} />
+
+      <dl className="mt-8 grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-4">
+        <Metric label="Exports archived" value={String(archived)} />
+        <Metric
+          label="Span"
+          value={traj.span ? `${traj.span.first} → ${traj.span.last}` : '—'}
+        />
+        <Metric
+          label="Last direction hold"
+          value={
+            last.persistence === null
+              ? 'n/a'
+              : `${Math.round(last.persistence * 100)}%`
+          }
+          hint="cosine of the last two moves"
+        />
+        <Metric
+          label="Last centre turnover"
+          value={`${Math.round(last.centreTurnover * 100)}%`}
+          hint="how much the gravity centres changed"
+        />
+      </dl>
+    </div>
+  )
+}
+
+function Metric({
+  label,
+  value,
+  hint,
+}: {
+  label: string
+  value: string
+  hint?: string
+}) {
+  return (
+    <div>
+      <div className="font-serif text-xl text-ink">{value}</div>
+      <div className="mt-0.5 font-mono text-[0.7rem] uppercase tracking-wide text-ink-faint">
+        {label}
+      </div>
+      {hint && <div className="mt-0.5 text-xs text-ink-faint">{hint}</div>}
+    </div>
+  )
+}
+
+/** Displacement per leg as a line over dates, with a page-growth underlay. */
+function MotionChart({ traj }: { traj: TrajectoryT }) {
+  const grown = useMountFlag()
+  const w = 640
+  const h = 180
+  const padX = 8
+  const padY = 16
+  const legs = traj.legs
+  const peak = Math.max(traj.peakDisplacement, 0.0001)
+  const step = legs.length > 1 ? (w - padX * 2) / (legs.length - 1) : 0
+  const x = (i: number) => padX + (legs.length > 1 ? i * step : (w - padX * 2) / 2)
+  const y = (d: number) => padY + (1 - d / peak) * (h - padY * 2)
+
+  const pts = legs.map((l, i) => [x(i), y(l.displacement)] as const)
+  const line = pts.map((p, i) => `${i ? 'L' : 'M'}${p[0]},${p[1]}`).join(' ')
+  const area = `${line} L${pts[pts.length - 1][0]},${h - padY} L${pts[0][0]},${h - padY} Z`
+
+  return (
+    <div>
+      <svg viewBox={`0 0 ${w} ${h}`} className="w-full" role="img" aria-label="Displacement per export leg over time">
+        <path
+          d={area}
+          fill="var(--color-accent)"
+          fillOpacity={0.08}
+          className="transition-opacity duration-slow"
+          style={{ opacity: grown ? 1 : 0 }}
+        />
+        <path
+          d={line}
+          fill="none"
+          stroke="var(--color-accent)"
+          strokeWidth={2}
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          pathLength={1}
+          style={{
+            strokeDasharray: 1,
+            strokeDashoffset: grown ? 0 : 1,
+            transition: 'stroke-dashoffset var(--motion-slow) var(--ease)',
+          }}
+        />
+        {pts.map((p, i) => (
+          <g key={legs[i].toDate + i}>
+            <circle cx={p[0]} cy={p[1]} r={3.5} fill="var(--color-accent)" />
+            <title>{`${legs[i].fromDate} → ${legs[i].toDate}: displacement ${legs[i].displacement.toFixed(3)}, ${legs[i].growth >= 0 ? '+' : ''}${legs[i].growth} pages`}</title>
+          </g>
+        ))}
+      </svg>
+      <div className="mt-1 flex justify-between font-mono text-xs text-ink-faint">
+        <span>{legs[0].fromDate}</span>
+        <span>displacement per export · peak {peak.toFixed(3)}</span>
+        <span>{legs[legs.length - 1].toDate}</span>
+      </div>
     </div>
   )
 }

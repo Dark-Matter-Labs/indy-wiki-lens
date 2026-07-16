@@ -1,0 +1,64 @@
+# Archives a compact digest of each new wiki export into
+# public/data/history.json, giving the Observatory's Trajectory panel a series
+# to plot motion over time. Runs daily (and on demand), fetching the PUBLIC
+# export with the same script the build uses, then committing the digest back.
+#
+# REQUIRED SECRET: WIKI_TOKEN — a token with READ access to the private wiki
+# repo (same access the Netlify build's GITHUB_TOKEN has). Without it, the fetch
+# falls back to the development fixture, which the archiver skips — so the job
+# is a harmless no-op until the secret is set.
+#
+# OPTIONAL repo VARIABLES (default to the script's own defaults if unset):
+#   WIKI_REPO, WIKI_BRANCH, WIKI_PUBLIC_PATH
+#
+# Stores ONLY derived, privacy-safe metadata (aggregate counts, normalised
+# category fractions, public centre slugs) — never wiki prose or private data.
+# The archiver re-runs the privacy guard and refuses private/non-public data.
+name: archive-snapshot
+
+on:
+  schedule:
+    - cron: '17 6 * * *' # daily, 06:17 UTC
+  workflow_dispatch: {}
+  repository_dispatch:
+    types: [wiki-export] # the wiki repo may dispatch this after an export
+
+concurrency:
+  group: archive-snapshot
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch latest public export
+        env:
+          GITHUB_TOKEN: ${{ secrets.WIKI_TOKEN }}
+          WIKI_REPO: ${{ vars.WIKI_REPO }}
+          WIKI_BRANCH: ${{ vars.WIKI_BRANCH }}
+          WIKI_PUBLIC_PATH: ${{ vars.WIKI_PUBLIC_PATH }}
+        run: node scripts/fetch-data.mjs
+
+      - name: Archive snapshot digest
+        run: node scripts/archive-snapshot.mjs
+
+      - name: Commit if history changed
+        run: |
+          if git diff --quiet -- public/data/history.json; then
+            echo "No new snapshot — history unchanged."
+            exit 0
+          fi
+          git config user.name "wiki-lens-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/history.json
+          git commit -m "chore(observatory): archive wiki snapshot $(date -u +%FT%TZ)"
+          git push
