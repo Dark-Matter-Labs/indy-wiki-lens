@@ -113,11 +113,11 @@ export function Observatory() {
       <Section
         eyebrow="How it compounds"
         title="The shape of the knowledge"
-        note="Structure lives in the layers and the links, not in a taxonomy imposed on the prose."
+        note="This is the public slice of the wiki — its structured strategy pages are largely private and not shown here. Every page has a type; the four lenses (goal · portfolio · mechanism · sequence) are a deliberately sparse overlay, so most public pages are essays or general library rather than lens-placed."
       >
         <div className="grid gap-10 lg:grid-cols-2">
-          <Distribution title="By layer" rows={counts.byLayer} />
           <Distribution title="By type" rows={counts.byType} />
+          <Distribution title="By layer / kind" rows={counts.byLayer} />
         </div>
         {axiomLoad.length > 0 && (
           <div className="mt-10">
