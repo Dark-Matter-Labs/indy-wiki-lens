@@ -42,6 +42,48 @@
         "substack-prophecies-entrapments-of-the-future-summary",
         "substack-the-portfolio-pathways-holding-multiple-summary"
       ]
+    },
+    {
+      "at": "2026-07-17T07:05:23.644Z",
+      "exportedAt": "2026-07-16T17:23:03.685030+00:00",
+      "hash": "94b28566975bf814",
+      "pages": 278,
+      "links": 407,
+      "tags": 859,
+      "axioms": 0,
+      "avgDegree": 2.928,
+      "vec": {
+        "type:summary": 0.9460431654676259,
+        "type:synthesis": 0.017985611510791366,
+        "type:concept": 0.02877697841726619,
+        "type:entity": 0.007194244604316547,
+        "layer:portfolio": 0.017985611510791366,
+        "layer:mechanism": 0.025179856115107913,
+        "layer:goal": 0.007194244604316547,
+        "layer:unassigned": 0.9460431654676259,
+        "layer:sequence": 0.0035971223021582736,
+        "conf:medium": 0.9784172661870504,
+        "conf:high": 0.017985611510791366,
+        "conf:low": 0.0035971223021582736,
+        "hz:none": 0.9964028776978417,
+        "hz:near": 0.0035971223021582736
+      },
+      "centers": [
+        "indy-johar-substack",
+        "optionality",
+        "civilizational-optionality",
+        "portfolio-engineering",
+        "option-fields",
+        "systemic-risk-projection-model",
+        "prophecy-seeding-campaign",
+        "nutrition-cascade-dynamic-model",
+        "witnessing-grammar",
+        "camden-nutrition-risk-model",
+        "substack-making-free-markets-and-the-needs-summary",
+        "substack-on-portfolios-the-difference-between-summary",
+        "substack-prophecies-entrapments-of-the-future-summary",
+        "substack-the-portfolio-pathways-holding-multiple-summary"
+      ]
     }
   ]
 }
