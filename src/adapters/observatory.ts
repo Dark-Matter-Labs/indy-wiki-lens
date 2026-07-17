@@ -67,6 +67,10 @@ export interface Observatory {
 
 const day = (ts: string): string => (ts ? ts.slice(0, 10) : '')
 
+/** A Substack essay — its own body of writing, not a curated-lens page. */
+const isEssay = (p: Page): boolean =>
+  p.tags.includes('substack') || p.slug.startsWith('substack-')
+
 /** Inclusive list of ISO dates from a→b (both YYYY-MM-DD). */
 function dateRange(a: string, b: string): string[] {
   const out: string[] = []
@@ -168,7 +172,14 @@ export function computeObservatory(graph: WikiGraph): Observatory {
       axioms: axioms.length,
       withSources,
       byType: tally<NodeType>(pages, (p) => p.type),
-      byLayer: tally(pages, (p) => (p.layer ?? 'unassigned') as string),
+      // `layer` is a deliberately sparse curated overlay (the four lens views), not
+      // a universal classifier. Rather than collapse everything else into one
+      // "unassigned" bucket, name what those pages actually are: the Substack
+      // essays are their own body of writing, and the small remainder is the
+      // general library not (yet) placed in a lens.
+      byLayer: tally(pages, (p) =>
+        p.layer ?? (isEssay(p) ? 'essays' : 'library'),
+      ),
       byHorizon: tally(pages, (p) => (p.horizon ?? 'none') as string),
       byConfidence: tally<Confidence>(pages, (p) => p.confidence),
       byEvidence: Object.entries(byEvidence)
