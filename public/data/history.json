@@ -126,6 +126,48 @@
         "substack-making-free-markets-and-the-needs-summary",
         "substack-on-portfolios-the-difference-between-summary"
       ]
+    },
+    {
+      "at": "2026-07-19T07:10:35.333Z",
+      "exportedAt": "2026-07-18T16:47:56.787531+00:00",
+      "hash": "3365bf9e0be3bbef",
+      "pages": 280,
+      "links": 412,
+      "tags": 872,
+      "axioms": 0,
+      "avgDegree": 2.943,
+      "vec": {
+        "type:summary": 0.9392857142857143,
+        "type:synthesis": 0.02142857142857143,
+        "type:concept": 0.03214285714285714,
+        "type:entity": 0.007142857142857143,
+        "layer:portfolio": 0.017857142857142856,
+        "layer:mechanism": 0.03214285714285714,
+        "layer:goal": 0.007142857142857143,
+        "layer:unassigned": 0.9392857142857143,
+        "layer:sequence": 0.0035714285714285713,
+        "conf:medium": 0.9785714285714285,
+        "conf:high": 0.017857142857142856,
+        "conf:low": 0.0035714285714285713,
+        "hz:none": 0.9964285714285714,
+        "hz:near": 0.0035714285714285713
+      },
+      "centers": [
+        "indy-johar-substack",
+        "optionality",
+        "civilizational-optionality",
+        "portfolio-engineering",
+        "option-fields",
+        "systemic-risk-projection-model",
+        "prophecy-seeding-campaign",
+        "nutrition-cascade-dynamic-model",
+        "camden-nutrition-risk-model",
+        "operating-economics",
+        "witnessing-grammar",
+        "liability-pool-structuring-protocol",
+        "substack-making-free-markets-and-the-needs-summary",
+        "substack-on-portfolios-the-difference-between-summary"
+      ]
     }
   ]
 }
