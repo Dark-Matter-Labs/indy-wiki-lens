@@ -9,6 +9,7 @@ import { Sequence } from '@/views/sequence/Sequence'
 import { Feed } from '@/views/feed/Feed'
 import { Axioms } from '@/views/axioms/Axioms'
 import { Ladder } from '@/views/ladder/Ladder'
+import { Learning } from '@/views/learning/Learning'
 import { Observatory } from '@/views/observatory/Observatory'
 import { PageView } from '@/views/page/PageView'
 import { NotFound } from '@/views/NotFound'
@@ -33,6 +34,7 @@ export function App() {
           <Route path="/axioms" element={<Axioms />} />
           <Route path="/ladder" element={<Ladder />} />
           <Route path="/observatory" element={<Observatory />} />
+          <Route path="/learning" element={<Learning />} />
           <Route path="/p/*" element={<PageView />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
