@@ -294,6 +294,48 @@
         "witnessing-grammar",
         "nutrition-supply-map"
       ]
+    },
+    {
+      "at": "2026-07-23T07:11:52.039Z",
+      "exportedAt": "2026-07-22T22:35:52.135343+00:00",
+      "hash": "a0e577063397847f",
+      "pages": 282,
+      "links": 420,
+      "tags": 878,
+      "axioms": 0,
+      "avgDegree": 2.979,
+      "vec": {
+        "type:synthesis": 0.028368794326241134,
+        "type:summary": 0.9326241134751773,
+        "type:concept": 0.031914893617021274,
+        "type:entity": 0.0070921985815602835,
+        "layer:mechanism": 0.03546099290780142,
+        "layer:portfolio": 0.01773049645390071,
+        "layer:goal": 0.0070921985815602835,
+        "layer:unassigned": 0.9361702127659575,
+        "layer:sequence": 0.0035460992907801418,
+        "conf:medium": 0.9787234042553191,
+        "conf:high": 0.01773049645390071,
+        "conf:low": 0.0035460992907801418,
+        "hz:none": 0.9964539007092199,
+        "hz:near": 0.0035460992907801418
+      },
+      "centers": [
+        "indy-johar-substack",
+        "optionality",
+        "civilizational-optionality",
+        "portfolio-engineering",
+        "option-fields",
+        "systemic-risk-projection-model",
+        "nutrition-cascade-dynamic-model",
+        "prophecy-seeding-campaign",
+        "reflections/2026-W29",
+        "camden-nutrition-risk-model",
+        "liability-pool-structuring-protocol",
+        "operating-economics",
+        "witnessing-grammar",
+        "nutrition-supply-map"
+      ]
     }
   ]
 }
