@@ -546,6 +546,48 @@
         "reflections/2026-W30",
         "witnessing-grammar"
       ]
+    },
+    {
+      "at": "2026-07-30T07:14:06.741Z",
+      "exportedAt": "2026-07-29T17:36:09.142052+00:00",
+      "hash": "eea6ad2855f663a7",
+      "pages": 285,
+      "links": 432,
+      "tags": 893,
+      "axioms": 0,
+      "avgDegree": 3.032,
+      "vec": {
+        "type:synthesis": 0.03508771929824561,
+        "type:summary": 0.9228070175438596,
+        "type:concept": 0.03508771929824561,
+        "type:entity": 0.007017543859649123,
+        "layer:mechanism": 0.042105263157894736,
+        "layer:portfolio": 0.017543859649122806,
+        "layer:goal": 0.007017543859649123,
+        "layer:unassigned": 0.9298245614035088,
+        "layer:sequence": 0.0035087719298245615,
+        "conf:medium": 0.9789473684210527,
+        "conf:high": 0.017543859649122806,
+        "conf:low": 0.0035087719298245615,
+        "hz:none": 0.9964912280701754,
+        "hz:near": 0.0035087719298245615
+      },
+      "centers": [
+        "indy-johar-substack",
+        "optionality",
+        "civilizational-optionality",
+        "portfolio-engineering",
+        "systemic-risk-projection-model",
+        "option-fields",
+        "prophecy-seeding-campaign",
+        "nutrition-cascade-dynamic-model",
+        "reflections/2026-W29",
+        "camden-nutrition-risk-model",
+        "liability-pool-structuring-protocol",
+        "operating-economics",
+        "reflections/2026-W30",
+        "witnessing-grammar"
+      ]
     }
   ]
 }
