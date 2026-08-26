@@ -1512,6 +1512,48 @@
         "liability-pool-structuring-protocol",
         "reflections/2026-W30"
       ]
+    },
+    {
+      "at": "2026-08-26T06:31:27.706Z",
+      "exportedAt": "2026-08-25T19:41:14.387125+00:00",
+      "hash": "0f0cba88641625e4",
+      "pages": 291,
+      "links": 442,
+      "tags": 905,
+      "axioms": 0,
+      "avgDegree": 3.038,
+      "vec": {
+        "type:synthesis": 0.05154639175257732,
+        "type:summary": 0.9003436426116839,
+        "type:concept": 0.041237113402061855,
+        "type:entity": 0.006872852233676976,
+        "layer:mechanism": 0.048109965635738834,
+        "layer:portfolio": 0.01718213058419244,
+        "layer:goal": 0.006872852233676976,
+        "layer:unassigned": 0.9243986254295533,
+        "layer:sequence": 0.003436426116838488,
+        "conf:medium": 0.979381443298969,
+        "conf:high": 0.01718213058419244,
+        "conf:low": 0.003436426116838488,
+        "hz:none": 0.9965635738831615,
+        "hz:near": 0.003436426116838488
+      },
+      "centers": [
+        "indy-johar-substack",
+        "optionality",
+        "civilizational-optionality",
+        "portfolio-engineering",
+        "systemic-risk-projection-model",
+        "option-fields",
+        "prophecy-seeding-campaign",
+        "nutrition-cascade-dynamic-model",
+        "operating-economics",
+        "reflections/2026-W29",
+        "witnessing-grammar",
+        "camden-nutrition-risk-model",
+        "liability-pool-structuring-protocol",
+        "reflections/2026-W30"
+      ]
     }
   ]
 }
