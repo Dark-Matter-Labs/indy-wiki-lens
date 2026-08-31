@@ -218,17 +218,63 @@ export class WikiGraph {
     return this.pages.filter((p) => p.layer === 'goal')
   }
 
-  /** Root goals (no resolved parent). */
-  rootGoals(): Page[] {
-    return this.goals().filter((g) => !g.parentSlug)
+  /**
+   * A goal's parent **within the goal tree**, or undefined.
+   *
+   * `parent:` is a free-text title and nothing constrains it to name another
+   * goal. When it names something else, the old selectors disagreed about what
+   * had happened and the page vanished: `rootGoals()` excluded it because it
+   * *had* a parent, while nothing ever walked that parent as a goal, so
+   * `children()` never reached it either. In xco-team-wiki that silently hid
+   * "Core Assumptions Underpinning the Design" — parented to the concept page
+   * "The Systemic We" — leaving 5 circles on screen for 6 goals in the export.
+   *
+   * A goal missing from the goal view is invisible data loss, so the tree is
+   * built on this one primitive and all three selectors below agree by
+   * construction.
+   */
+  private goalParent(p: Page): Page | undefined {
+    if (!p.parentSlug) return undefined
+    const parent = this.bySlug.get(p.parentSlug)
+    return parent?.layer === 'goal' ? parent : undefined
   }
 
+  /** Goals that start a tree: no parent, or a parent that is not itself a goal. */
+  rootGoals(): Page[] {
+    return this.goals().filter((g) => !this.goalParent(g))
+  }
+
+  /**
+   * Child GOALS of a page. Filtered, so a concept that happens to declare a
+   * goal as its `parent:` cannot appear as a circle in the problem space —
+   * the mirror of the bug above, and just as silent.
+   */
   children(slug: string): Page[] {
     const p = this.bySlug.get(slug)
-    return p ? this.many(p.childSlugs) : []
+    return p ? this.many(p.childSlugs).filter((c) => c.layer === 'goal') : []
   }
 
-  /** Breadcrumb from root down to the given goal (inclusive). */
+  /**
+   * The other goals at this goal's level — its parent's other children, or the
+   * other roots. Lives here rather than in the view so it cannot disagree with
+   * `rootGoals()`: computing it as `parentSlug ? children(parentSlug) : roots`
+   * gave a goal parented to a non-goal an empty sibling list, while the space
+   * itself was drawing it as a root beside five others.
+   */
+  goalSiblings(slug: string): Page[] {
+    const p = this.bySlug.get(slug)
+    if (!p) return []
+    const parent = this.goalParent(p)
+    const level = parent ? this.children(parent.slug) : this.rootGoals()
+    return level.filter((s) => s.slug !== slug)
+  }
+
+  /**
+   * Breadcrumb from root down to the given goal (inclusive), following goal
+   * parents only. A non-goal ancestor in this list rendered a crumb that, when
+   * clicked, focused a slug absent from the packed tree — which silently reset
+   * the view to the root instead of navigating.
+   */
   goalPath(slug: string): Page[] {
     const path: Page[] = []
     let cur = this.bySlug.get(slug)
@@ -236,7 +282,7 @@ export class WikiGraph {
     while (cur && !seen.has(cur.slug)) {
       seen.add(cur.slug)
       path.unshift(cur)
-      cur = cur.parentSlug ? this.bySlug.get(cur.parentSlug) : undefined
+      cur = this.goalParent(cur)
     }
     return path
   }
