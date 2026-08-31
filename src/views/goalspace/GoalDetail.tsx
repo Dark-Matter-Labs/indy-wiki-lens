@@ -38,9 +38,7 @@ export function GoalDetail({
     )
   }
 
-  const siblings = page.parentSlug
-    ? graph.children(page.parentSlug).filter((s) => s.slug !== page.slug)
-    : graph.rootGoals().filter((s) => s.slug !== page.slug)
+  const siblings = graph.goalSiblings(page.slug)
   const children = graph.children(page.slug)
   const portfolio = graph.portfolioForGoal(page.slug)
 
