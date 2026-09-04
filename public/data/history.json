@@ -1764,6 +1764,48 @@
         "witnessing-grammar",
         "xco-capital-formation-architecture"
       ]
+    },
+    {
+      "at": "2026-09-04T06:42:28.250Z",
+      "exportedAt": "2026-09-03T15:45:13.658781+00:00",
+      "hash": "a7641da01d8d4310",
+      "pages": 295,
+      "links": 465,
+      "tags": 923,
+      "axioms": 0,
+      "avgDegree": 3.153,
+      "vec": {
+        "type:synthesis": 0.0576271186440678,
+        "type:summary": 0.8915254237288136,
+        "type:concept": 0.04067796610169491,
+        "type:entity": 0.010169491525423728,
+        "layer:mechanism": 0.05084745762711865,
+        "layer:portfolio": 0.01694915254237288,
+        "layer:goal": 0.006779661016949152,
+        "layer:unassigned": 0.9220338983050848,
+        "layer:sequence": 0.003389830508474576,
+        "conf:medium": 0.9796610169491525,
+        "conf:high": 0.01694915254237288,
+        "conf:low": 0.003389830508474576,
+        "hz:none": 0.9966101694915255,
+        "hz:near": 0.003389830508474576
+      },
+      "centers": [
+        "indy-johar-substack",
+        "optionality",
+        "civilizational-optionality",
+        "portfolio-engineering",
+        "systemic-risk-projection-model",
+        "consciousness-as-participatory-constraint-summary",
+        "option-fields",
+        "prophecy-seeding-campaign",
+        "nutrition-cascade-dynamic-model",
+        "operating-economics",
+        "liability-pool-structuring-protocol",
+        "reflections/2026-W29",
+        "witnessing-grammar",
+        "xco-capital-formation-architecture"
+      ]
     }
   ]
 }
