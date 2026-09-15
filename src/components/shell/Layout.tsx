@@ -33,7 +33,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
 function Header({ onSearch }: { onSearch: () => void }) {
   return (
-    <header className="sticky top-0 z-30 border-b border-line bg-bg/90 backdrop-blur">
+    <header className="sticky top-0 z-30 border-b border-line bg-veil backdrop-blur">
       <div className="mx-auto flex w-full max-w-content items-center gap-6 px-gutter py-3">
         <Link to="/" className="shrink-0 leading-none">
           <span className="font-serif text-lg tracking-tight">The Lens</span>

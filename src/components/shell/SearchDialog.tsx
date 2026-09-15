@@ -70,7 +70,7 @@ export function SearchDialog({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-ink/20 px-4 pt-[12vh]"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-scrim px-4 pt-[12vh]"
       onClick={onClose}
     >
       <div

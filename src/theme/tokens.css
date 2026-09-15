@@ -34,6 +34,8 @@
   --color-accent-muted: #c56a40;   /* dim ember for low-emphasis strokes */
   --color-accent-bright: #ff8a5c;  /* sunlight — links, bright hover */
   --color-accent-contrast: #131f24;/* ink text on an ember fill */
+  --color-accent-faint: rgba(242, 127, 61, 0.5); /* accent at half strength — rings */
+  --color-accent-soft: rgba(242, 127, 61, 0.1);  /* small accent fill — a selected chip */
 
   /* Sun coral — repository / lineage. Used only atmospherically (masthead),
      never on content cards. */
@@ -45,6 +47,12 @@
   --color-evidenced: #7bb59a;   /* grounded */
   --color-assumptive: #e3b25c;  /* assumed */
   --color-contested: #e0736a;   /* disputed */
+  --color-contested-line: rgba(224, 115, 106, 0.4); /* contested hairline — an error card's border */
+
+  /* Overlay grounds. Both carry alpha, so both must be tokens: Tailwind
+     cannot put an alpha modifier on a hex-valued custom property. */
+  --color-scrim: rgba(241, 233, 216, 0.2); /* dims the page behind a modal */
+  --color-veil: rgba(19, 31, 36, 0.9);     /* the canvas under a blurred sticky bar */
 
   /* ---- Typography ------------------------------------------------------- */
   --font-serif: 'Crimson Pro', 'Iowan Old Style', Palatino, Georgia, Cambria,
@@ -110,6 +118,11 @@
     --color-evidenced: #2f6b4f;
     --color-assumptive: #9a7b1f;
     --color-contested: #a23a2e;
+    --color-accent-faint: rgba(176, 85, 47, 0.5);
+    --color-accent-soft: rgba(176, 85, 47, 0.1);
+    --color-contested-line: rgba(162, 58, 46, 0.4);
+    --color-scrim: rgba(34, 49, 58, 0.2);
+    --color-veil: rgba(243, 238, 226, 0.9);
     --shadow-sm: 0 1px 2px rgba(34, 49, 58, 0.06);
     --shadow: 0 10px 30px -14px rgba(34, 49, 58, 0.22);
   }
@@ -132,6 +145,11 @@
   --color-evidenced: #2f6b4f;
   --color-assumptive: #9a7b1f;
   --color-contested: #a23a2e;
+  --color-accent-faint: rgba(176, 85, 47, 0.5);
+  --color-accent-soft: rgba(176, 85, 47, 0.1);
+  --color-contested-line: rgba(162, 58, 46, 0.4);
+  --color-scrim: rgba(34, 49, 58, 0.2);
+  --color-veil: rgba(243, 238, 226, 0.9);
   --shadow-sm: 0 1px 2px rgba(34, 49, 58, 0.06);
   --shadow: 0 10px 30px -14px rgba(34, 49, 58, 0.22);
 }
