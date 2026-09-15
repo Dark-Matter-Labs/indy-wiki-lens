@@ -32,7 +32,7 @@ export function RestsOn({ page }: { page: Page }) {
                 }}
                 className={`flex items-center gap-1.5 rounded-sm border px-1.5 py-0.5 text-xs transition-colors duration-fast ${
                   selected
-                    ? 'border-accent bg-accent/10 text-ink'
+                    ? 'border-accent bg-accent-soft text-ink'
                     : 'border-line text-ink-muted hover:border-line-strong hover:text-ink'
                 }`}
                 title={ax.description}

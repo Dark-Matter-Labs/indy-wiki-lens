@@ -32,7 +32,7 @@ export function useHighlight() {
     dimClassFor(slug: string): string {
       if (!downstream) return ''
       return downstream.has(slug)
-        ? 'ring-1 ring-accent/50'
+        ? 'ring-1 ring-accent-faint'
         : 'opacity-40 transition-opacity duration-default'
     },
   }

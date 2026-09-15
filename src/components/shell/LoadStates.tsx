@@ -11,7 +11,7 @@ export function LoadingScreen() {
 export function LoadError({ error }: { error: Error }) {
   const isSchema = error instanceof SchemaMismatchError
   return (
-    <div className="mx-auto max-w-measure rounded border border-contested/40 bg-surface px-6 py-12">
+    <div className="mx-auto max-w-measure rounded border border-contested-line bg-surface px-6 py-12">
       <p className="font-serif text-2xl text-ink">
         {isSchema ? 'The data speaks a newer dialect' : 'The data could not be loaded'}
       </p>

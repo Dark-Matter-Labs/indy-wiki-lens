@@ -408,7 +408,7 @@ function Heartbeat({ obs }: { obs: ReturnType<typeof computeObservatory> }) {
               title={`${b.date} · ${b.count} page${b.count === 1 ? '' : 's'}`}
             >
               <div
-                className="w-full rounded-sm bg-accent/80 transition-[height] duration-slow ease-default group-hover:bg-accent"
+                className="w-full rounded-sm bg-accent-muted transition-[height] duration-slow ease-default group-hover:bg-accent"
                 style={{ height: grown ? `${Math.max(b.count ? 6 : 0, h)}%` : '0%' }}
               />
             </div>

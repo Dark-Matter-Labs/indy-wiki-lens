@@ -27,12 +27,18 @@ export default {
       'accent-muted': 'var(--color-accent-muted)',
       'accent-bright': 'var(--color-accent-bright)',
       'accent-contrast': 'var(--color-accent-contrast)',
+      'accent-faint': 'var(--color-accent-faint)',
+      'accent-soft': 'var(--color-accent-soft)',
       sun: 'var(--color-sun)',
       'sun-2': 'var(--color-sun-2)',
       // Evidence-status semantics (used honestly by the axioms overlay)
       evidenced: 'var(--color-evidenced)',
       assumptive: 'var(--color-assumptive)',
       contested: 'var(--color-contested)',
+      'contested-line': 'var(--color-contested-line)',
+      // Overlay grounds — alpha lives in the token, never in a modifier.
+      scrim: 'var(--color-scrim)',
+      veil: 'var(--color-veil)',
     },
     fontFamily: {
       sans: 'var(--font-sans)',

@@ -1,0 +1,53 @@
+# Typechecks and builds every pull request, then checks the BUILT CSS for
+# phantom colour classes.
+#
+# Why the built CSS: tailwind.config.js maps every colour to a CSS custom
+# property holding a hex value, and Tailwind cannot apply an alpha modifier to
+# one — `bg-accent/10` compiles to no rule at all, silently. Reading the source
+# tells you nothing. See scripts/check-classes.mjs.
+#
+# Why this repo had no CI until 2026-09-15: it relied on Netlify's deploy check,
+# which reports on whether the site deployed, not on whether it is correct. Six
+# invisible colour classes were live in production when this file was added, and
+# a type error would have reached `main` the same way. A deploy that succeeds is
+# not a check that passed.
+#
+# No wiki token is needed. The build steps are invoked directly rather than
+# through `npm run build`, so the `prebuild` data fetch is skipped; the export in
+# public/data/ is gitignored and fetched at runtime, not at build time, so
+# compiling the CSS and JS does not need it.
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: ./node_modules/.bin/tsc -b --noEmit
+
+      - name: Build
+        run: ./node_modules/.bin/vite build
+
+      - name: Check every colour class resolves to a rule
+        run: node scripts/check-classes.mjs
