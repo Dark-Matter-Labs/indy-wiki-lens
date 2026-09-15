@@ -129,6 +129,7 @@ function toPage(raw: RawNode, titleToSlug: Map<string, string>): Page {
     tags: raw.tags,
     confidence: raw.confidence,
     visibility: raw.visibility,
+    status: (raw.status as Page['status']) ?? null,
     timestamp: raw.timestamp,
     description: raw.description,
     sources: raw.sources ?? [],
@@ -209,7 +210,19 @@ export class WikiGraph {
 
   /** Pages eligible for navigation, search and sitemap (excludes unlisted). */
   get listable(): Page[] {
-    return this.pages.filter((p) => p.visibility !== 'unlisted')
+    return this.pages.filter((p) => p.visibility !== 'unlisted' && p.status !== 'dormant')
+  }
+
+  /** Retired pages, newest first. Still readable, deliberately out of the working views. */
+  get archived(): Page[] {
+    return this.pages
+      .filter((p) => p.status === 'dormant')
+      .sort((a, b) => (b.timestamp ?? '').localeCompare(a.timestamp ?? ''))
+  }
+
+  /** Every page the cut contains, archived included. For counts that must be honest. */
+  get everything(): Page[] {
+    return this.pages
   }
 
   /* ---- view selectors -------------------------------------------------- */

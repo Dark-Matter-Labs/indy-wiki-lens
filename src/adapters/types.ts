@@ -20,6 +20,11 @@ export type NodeType =
 export type Layer = 'goal' | 'portfolio' | 'mechanism' | 'sequence' | null
 export type Horizon = 'near' | 'mid' | 'far' | null
 export type Confidence = 'high' | 'medium' | 'low'
+/** A page's lifecycle. `dormant` means retired: nobody stands behind it and nothing
+ *  references it. It is never deleted and stays readable at its address; the lens hides it
+ *  from the working views and keeps it reachable. */
+export type PageStatus = 'draft' | 'reviewed' | 'dormant'
+
 export type Visibility = 'public' | 'unlisted'
 
 export interface RawNode {
@@ -33,6 +38,7 @@ export interface RawNode {
   tags: string[]
   confidence: Confidence
   visibility: Visibility
+  status: PageStatus | null
   timestamp: string
   description: string
   sources: string[]
@@ -97,6 +103,7 @@ export interface Page {
   tags: string[]
   confidence: Confidence
   visibility: Visibility
+  status: PageStatus | null
   timestamp: string
   description: string
   sources: string[]
