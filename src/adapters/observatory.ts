@@ -133,8 +133,11 @@ export function computeObservatory(graph: WikiGraph): Observatory {
       : []
   const peak = byDay.reduce((m, b) => Math.max(m, b.count), 0)
   const spanDays = byDay.length
+  // Cadence describes LIVE work, so retired pages are excluded here even though the counts
+  // above deliberately include them. Showing a page somebody retired under "Freshest" was
+  // the first thing the archive view made visible.
   const byTime = [...pages]
-    .filter((p) => p.timestamp)
+    .filter((p) => p.timestamp && p.status !== 'dormant')
     .sort((a, b) => b.timestamp.localeCompare(a.timestamp))
   const freshest = byTime.slice(0, 5)
   const stalest = byTime.slice(-5).reverse()

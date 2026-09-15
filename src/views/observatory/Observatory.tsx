@@ -79,6 +79,8 @@ export function Observatory() {
       </Section>
 
       {/* ---- trajectory (motion across archived exports) ---- */}
+      <ArchiveSection />
+
       <TrajectorySection />
 
       {/* ---- gravity ---- */}
@@ -423,6 +425,32 @@ function Heartbeat({ obs }: { obs: ReturnType<typeof computeObservatory> }) {
         <span>{last}</span>
       </div>
     </div>
+  )
+}
+
+/**
+ * Retired pages. `status: dormant` is a weight-and-visibility decision a PERSON makes about a
+ * page nobody stands behind any more; the wiki never deletes anything to tidy up, so the page
+ * stays readable at its address and simply leaves the working views.
+ *
+ * This exists so that hiding is not the same as losing. It renders nothing when nothing is
+ * retired, rather than an empty box implying neglect.
+ */
+function ArchiveSection() {
+  const graph = useGraph()
+  const archived = useMemo(() => graph?.archived ?? [], [graph])
+  if (!graph || archived.length === 0) return null
+  return (
+    <Section
+      eyebrow="Archive"
+      title={`${archived.length} page${archived.length === 1 ? '' : 's'} retired`}
+      note="Retired, not deleted. Nothing here is removed to tidy up: each page stays readable at the same address and is kept out of navigation, search and the counts that describe live work. Waking one is the same decision in reverse, and only a person makes it."
+    >
+      <MiniList title="Retired" pages={archived.slice(0, 20)} />
+      {archived.length > 20 ? (
+        <p className="mt-4 text-sm text-ink-faint">…and {archived.length - 20} more.</p>
+      ) : null}
+    </Section>
   )
 }
 
