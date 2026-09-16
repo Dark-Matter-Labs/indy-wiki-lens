@@ -27,6 +27,16 @@ export type PageStatus = 'draft' | 'reviewed' | 'dormant'
 
 export type Visibility = 'public' | 'unlisted'
 
+/** Who has stood behind a page. `machine` means nobody has: the model wrote or filed it.
+ *  A model may set `machine` and propose `self`; only a person can award `peer` or
+ *  `collective`, which is why the lens shows the rung and never infers one. */
+export type Validation = 'machine' | 'self' | 'peer' | 'collective'
+
+/** How a page was built. `derivative` is the layer the wiki calls "where drift hides":
+ *  built only from other pages, with no direct source under it. Mostly unset, and an
+ *  honest blank is shown as unknown rather than guessed. */
+export type Derivation = 'source' | 'synthesis' | 'derivative' | null
+
 export interface RawNode {
   id: string
   slug: string
@@ -39,6 +49,10 @@ export interface RawNode {
   confidence: Confidence
   visibility: Visibility
   status: PageStatus | null
+  validation: Validation | null
+  validated_by: string | string[] | null
+  validated_at: string | null
+  derivation: Derivation
   timestamp: string
   description: string
   sources: string[]
@@ -110,6 +124,16 @@ export interface Page {
   body: string
   outbound: string[]
   inbound: string[]
+
+  /** Who has stood behind this page, and when. `machine` is the honest default and means
+   *  nobody has. `validatedBy` is normalised to a list; an empty list with a non-machine
+   *  rung means the export carried a rung without a name, which the lens shows as unnamed
+   *  rather than inventing one. */
+  validation: Validation
+  validatedBy: string[]
+  validatedAt: string | null
+  /** How the page was built, or null when it has never been labelled. */
+  derivation: Derivation
 
   /** Resolved from the raw `parent` TITLE → parent slug (null if unresolved). */
   parentSlug: string | null

@@ -45,6 +45,8 @@ export function PageView() {
         </div>
       )}
 
+      <Provenance page={page} />
+
       <RestsOn page={page} />
 
       <div className="mt-8">
@@ -69,6 +71,51 @@ function PageMeta({ page }: { page: Page }) {
       </span>
       <span>·</span>
       <time dateTime={page.timestamp}>{page.timestamp}</time>
+    </div>
+  )
+}
+
+/**
+ * Who has stood behind this page, stated rather than implied.
+ *
+ * `machine` is not a defect and is not styled as one: it is the honest default for anything
+ * a person has not confirmed, and it describes almost every page in this corpus. What the
+ * lens must not do is stay silent about it, because a page that reads as authoritative while
+ * nobody has confirmed it is the exact misreading the validation ladder exists to prevent.
+ *
+ * A rung above `machine` carries a date in the wiki. Where the date is missing the lens says
+ * so instead of hiding it: an undated confirmation is invisible to every read-out that counts
+ * validation events, which is a real defect and worth surfacing where somebody can fix it.
+ */
+function Provenance({ page }: { page: Page }) {
+  const confirmed = page.validation !== 'machine'
+  const who = page.validatedBy.join(', ')
+  return (
+    <div className="mt-4 border-l-2 border-line pl-3 text-sm text-ink-muted">
+      {confirmed ? (
+        <>
+          <span className="text-ink">Stood behind</span>{' '}
+          <span className="text-ink-faint">({page.validation})</span>
+          {who && <> by {who}</>}
+          {page.validatedAt ? (
+            <> on <time dateTime={page.validatedAt}>{page.validatedAt}</time></>
+          ) : (
+            <>, undated, so no read-out counts it</>
+          )}
+        </>
+      ) : (
+        <>Nobody has stood behind this page yet. It was written and filed by a model.</>
+      )}
+      {page.derivation && (
+        <>
+          {' · '}
+          {page.derivation === 'derivative'
+            ? 'Built from other pages, with no source under it.'
+            : page.derivation === 'synthesis'
+              ? 'Built across several sources.'
+              : 'A reading of one source.'}
+        </>
+      )}
     </div>
   )
 }
