@@ -117,6 +117,20 @@ function matchRoleFromTags(tags: string[]): MatchRole {
   return null
 }
 
+/**
+ * `validated_by` arrives as a string, a YAML list, or nothing. The wiki writes
+ * `[gurden]` in some pages and `Michelle Zucker` in others, so both shapes are real.
+ * Normalised to a list here, once, rather than in every view that wants to show a name.
+ */
+function normaliseValidatedBy(v: RawNode['validated_by']): string[] {
+  if (!v) return []
+  const raw = Array.isArray(v) ? v : [v]
+  return raw
+    .flatMap((s) => String(s).replace(/^\[|\]$/g, '').split(','))
+    .map((s) => s.trim())
+    .filter(Boolean)
+}
+
 function toPage(raw: RawNode, titleToSlug: Map<string, string>): Page {
   const isAxiom = raw.tags.includes('axiom')
   const evidence = isAxiom ? (evidenceFromTags(raw.tags) ?? 'assumptive') : null
@@ -130,6 +144,10 @@ function toPage(raw: RawNode, titleToSlug: Map<string, string>): Page {
     confidence: raw.confidence,
     visibility: raw.visibility,
     status: (raw.status as Page['status']) ?? null,
+    validation: (raw.validation as Page['validation']) ?? 'machine',
+    validatedBy: normaliseValidatedBy(raw.validated_by),
+    validatedAt: raw.validated_at ?? null,
+    derivation: (raw.derivation as Page['derivation']) ?? null,
     timestamp: raw.timestamp,
     description: raw.description,
     sources: raw.sources ?? [],
