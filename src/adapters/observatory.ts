@@ -63,6 +63,22 @@ export interface Observatory {
     maxDegree: number
   }
   axiomLoad: Array<{ axiom: Page; dependents: number }>
+  /** Who stands behind the corpus. `confirmed` is the number of pages a person has
+   *  stood behind; `undated` is how many of those carry no date and are therefore
+   *  invisible to every read-out that counts validation events. */
+  standing: {
+    confirmed: number
+    undated: number
+    byRung: Array<{ key: string; count: number }>
+    byDerivation: Array<{ key: string; count: number }>
+    recent: Array<{
+      slug: string
+      title: string
+      rung: string
+      at: string
+      by: string[]
+    }>
+  }
 }
 
 const day = (ts: string): string => (ts ? ts.slice(0, 10) : '')
@@ -206,5 +222,45 @@ export function computeObservatory(graph: WikiGraph): Observatory {
       maxDegree: centers[0]?.degree ?? 0,
     },
     axiomLoad,
+    standing: standingOf(pages),
+  }
+}
+
+/**
+ * Who stands behind this corpus, counted.
+ *
+ * The per-page line says it one page at a time; this is the number that makes the state
+ * legible at all. A corpus where nobody has confirmed anything is not broken, and it is also
+ * not the same object as one that has been reviewed, which is the distinction the validation
+ * ladder exists to keep.
+ *
+ * `undated` is counted separately and deliberately. Every read-out in the wiki counts
+ * validation events by their date, so a confirmed page without one is invisible to all of
+ * them: it is a real confirmation that no instrument can see. Two pages in this federation
+ * sat in that state from August until 15 September.
+ *
+ * `derivation` is counted with its blank included rather than dropped. Unlabelled is the
+ * majority and pretending otherwise would make the derivative layer look measured when it is
+ * mostly unmeasured.
+ */
+function standingOf(pages: Page[]) {
+  const byRung = tally(pages, (p) => p.validation)
+  const confirmed = pages.filter((p) => p.validation !== 'machine')
+  return {
+    confirmed: confirmed.length,
+    undated: confirmed.filter((p) => !p.validatedAt).length,
+    byRung,
+    byDerivation: tally(pages, (p) => p.derivation ?? 'unlabelled'),
+    recent: confirmed
+      .filter((p) => p.validatedAt)
+      .sort((a, b) => (b.validatedAt ?? '').localeCompare(a.validatedAt ?? ''))
+      .slice(0, 5)
+      .map((p) => ({
+        slug: p.slug,
+        title: p.title,
+        rung: p.validation,
+        at: p.validatedAt as string,
+        by: p.validatedBy,
+      })),
   }
 }
