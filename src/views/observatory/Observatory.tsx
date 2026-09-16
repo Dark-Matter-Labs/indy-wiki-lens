@@ -79,6 +79,8 @@ export function Observatory() {
       </Section>
 
       {/* ---- trajectory (motion across archived exports) ---- */}
+      <StandingSection obs={obs} />
+
       <ArchiveSection />
 
       <TrajectorySection />
@@ -436,6 +438,101 @@ function Heartbeat({ obs }: { obs: ReturnType<typeof computeObservatory> }) {
  * This exists so that hiding is not the same as losing. It renders nothing when nothing is
  * retired, rather than an empty box implying neglect.
  */
+/**
+ * Who stands behind the corpus, at corpus scale.
+ *
+ * The number here is usually zero or close to it, and that is the point of showing it. A
+ * wiki where nobody has confirmed anything is not broken, and it is a different object from
+ * one that has been reviewed; the ladder exists to keep those apart, and a reading interface
+ * that never states which one you are looking at quietly collapses them.
+ *
+ * `undated` is called out separately because it is a defect rather than a state. Every
+ * read-out in the wiki counts validation events by their date, so a confirmed page without
+ * one is a real confirmation no instrument can see.
+ */
+function StandingSection({ obs }: { obs: ReturnType<typeof computeObservatory> }) {
+  const { standing, counts } = obs
+  const none = standing.confirmed === 0
+  return (
+    <Section
+      eyebrow="Standing"
+      title={
+        none
+          ? 'Nobody has stood behind any of these pages'
+          : `${standing.confirmed} of ${counts.pages} pages a person has stood behind`
+      }
+      note="`machine` is the honest default: a model wrote or filed the page and nobody has confirmed it. A model may set it and propose `self`; only a person can award `peer` or `collective`. Unvalidated material is admitted, indexed and searchable — it simply does not yet move the corpus's centre."
+    >
+      <div className="grid gap-8 sm:grid-cols-2">
+        <Bars title="Who has confirmed" rows={standing.byRung} total={counts.pages} />
+        <Bars title="How pages were built" rows={standing.byDerivation} total={counts.pages} />
+      </div>
+
+      {standing.undated > 0 && (
+        <p className="mt-6 text-sm text-ink-muted">
+          {standing.undated} confirmed page{standing.undated === 1 ? '' : 's'} carr
+          {standing.undated === 1 ? 'ies' : 'y'} no date. Every read-out counts validation by
+          its date, so {standing.undated === 1 ? 'it is' : 'they are'} invisible to all of them.
+        </p>
+      )}
+
+      {standing.recent.length > 0 && (
+        <div className="mt-8">
+          <Eyebrow>Most recently stood behind</Eyebrow>
+          <ul className="mt-2 space-y-1">
+            {standing.recent.map((r) => (
+              <li key={r.slug} className="text-sm">
+                <Link to={`/p/${r.slug}`} className="text-ink hover:underline">
+                  {r.title}
+                </Link>{' '}
+                <span className="text-ink-faint">
+                  {r.rung}
+                  {r.by.length > 0 && <> · {r.by.join(', ')}</>} · {r.at}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </Section>
+  )
+}
+
+/** A labelled count with a proportional bar. Shares the Observatory's plain style. */
+function Bars({
+  title,
+  rows,
+  total,
+}: {
+  title: string
+  rows: Array<{ key: string; count: number }>
+  total: number
+}) {
+  const max = Math.max(1, ...rows.map((r) => r.count))
+  return (
+    <div>
+      <Eyebrow>{title}</Eyebrow>
+      <ul className="mt-2 space-y-1.5">
+        {rows.map((r) => (
+          <li key={r.key} className="flex items-center gap-3 text-sm">
+            <span className="w-24 shrink-0 text-ink-muted">{r.key}</span>
+            <span className="h-2 flex-1 overflow-hidden rounded-sm bg-line">
+              <span
+                className="block h-full bg-accent"
+                style={{ width: `${(r.count / max) * 100}%` }}
+              />
+            </span>
+            <span className="w-16 shrink-0 text-right font-mono text-xs text-ink-faint">
+              {r.count}
+              {total > 0 && <> · {Math.round((r.count / total) * 100)}%</>}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
 function ArchiveSection() {
   const graph = useGraph()
   const archived = useMemo(() => graph?.archived ?? [], [graph])
