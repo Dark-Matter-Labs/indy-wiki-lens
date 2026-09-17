@@ -31,6 +31,18 @@ const OUT_PATH = resolve(ROOT, 'public/data/wiki.json')
 const SAMPLE_PATH = resolve(ROOT, 'public/data/wiki.sample.json')
 const SUPPORTED_MAJOR = 1
 
+/* A build running on a host, as opposed to someone's laptop.
+ *
+ * The distinction is the whole point of the guard in useSampleFallback: on a laptop the
+ * fixture is a convenience, and on a host it is a production site quietly serving 32
+ * fictional nodes under a green deploy. Netlify sets NETLIFY and CONTEXT; Vercel sets
+ * VERCEL; GitHub Actions and most others set CI. */
+const HOSTED = Boolean(
+  process.env.NETLIFY ||
+    process.env.VERCEL ||
+    /^(1|true|yes)$/i.test(process.env.CI || ''),
+)
+
 function log(msg) {
   process.stdout.write(`[fetch-data] ${msg}\n`)
 }
@@ -112,7 +124,23 @@ async function exists(p) {
   }
 }
 
-async function useSampleFallback(reason) {
+async function useSampleFallback(reason, { deliberate = false } = {}) {
+  /* The failure this closes: the token expires or gets renamed, the fetch is skipped,
+   * the fixture is copied, the build exits 0, and production serves 32 fictional nodes
+   * with nothing anywhere saying so. A deploy that silently swaps real data for a demo
+   * is worse than a deploy that fails, so on a host it fails.
+   *
+   * USE_SAMPLE_DATA stays the way through, because asking for the fixture explicitly is
+   * a decision somebody made rather than a default nobody noticed. */
+  if (HOSTED && !deliberate) {
+    fail(
+      `${reason}, and this is a hosted build (${
+        process.env.CONTEXT || (process.env.NETLIFY ? 'netlify' : 'ci')
+      }). Refusing to publish the development fixture as if it were the wiki. ` +
+        `Set GITHUB_TOKEN in the site's environment variables, or set ` +
+        `USE_SAMPLE_DATA=1 if serving the demo corpus is genuinely what you want.`,
+    )
+  }
   if (!(await exists(SAMPLE_PATH))) {
     fail(
       `${reason} and no sample fixture at ${SAMPLE_PATH}. ` +
@@ -132,13 +160,13 @@ async function main() {
   await mkdir(dirname(OUT_PATH), { recursive: true })
 
   if (CONFIG.useSample) {
-    await useSampleFallback('USE_SAMPLE_DATA is set')
+    await useSampleFallback('USE_SAMPLE_DATA is set', { deliberate: true })
     return
   }
 
   if (!CONFIG.token) {
-    // No credentials. In production this should be a hard error; locally we
-    // prefer the fixture so `npm run dev` works out of the box.
+    // No credentials. On a host this is now a hard error (see useSampleFallback);
+    // locally we prefer the fixture so `npm run dev` works out of the box.
     await useSampleFallback('no GITHUB_TOKEN provided')
     return
   }

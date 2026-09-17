@@ -17,3 +17,6 @@ public/robots.txt
 
 # TypeScript build info
 *.tsbuildinfo
+
+# transient mutant written by scripts/fetch-data.test.mjs
+scripts/.fetch-data.mutant.mjs
