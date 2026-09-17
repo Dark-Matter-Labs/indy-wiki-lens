@@ -21,6 +21,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '..')
 const SCRIPT = join(__dirname, 'fetch-data.mjs')
 const OUT = join(ROOT, 'public/data/wiki.json')
+/* Each lens reads a different variable — GITHUB_TOKEN here, XCO_GITHUB_TOKEN and
+ * LS_GITHUB_TOKEN in the siblings. The guard has to name the one this repo reads,
+ * or the message sends whoever hits it to the wrong setting. */
+const TOKEN_VAR = 'GITHUB_TOKEN'
 
 /** Run fetch-data with a clean env, restoring whatever wiki.json was there. */
 function run(env, script = SCRIPT) {
@@ -58,6 +62,7 @@ process.stdout.write('1. CI, no token — must refuse the fixture\n')
   check('exits non-zero', code !== 0, `code=${code}`)
   check('says it is refusing', /refusing to publish the development fixture/i.test(out), out.trim())
   check('names the way out', out.includes('USE_SAMPLE_DATA=1'), out.trim())
+  check(`names ${TOKEN_VAR}`, out.includes(TOKEN_VAR), out.trim())
 }
 
 process.stdout.write('2. Netlify, no token — same refusal\n')

@@ -15,7 +15,12 @@
 # No wiki token is needed. The build steps are invoked directly rather than
 # through `npm run build`, so the `prebuild` data fetch is skipped; the export in
 # public/data/ is gitignored and fetched at runtime, not at build time, so
-# compiling the CSS and JS does not need it.
+# compiling the CSS and JS does not need it.#
+# The two guard suites run here too. They need no token and no network: each
+# spawns its script with an explicit environment, so the runner's own CI=1 does
+# not leak in and decide a case. Added 2026-09-17, when both suites had been
+# written and neither ran anywhere — a test that CI never invokes is the same
+# defect as a check that cannot fire, one level up.
 name: ci
 
 on:
@@ -51,3 +56,8 @@ jobs:
 
       - name: Check every colour class resolves to a rule
         run: node scripts/check-classes.mjs
+
+      - name: Test the guards that keep fixtures and foreign histories out
+        run: |
+          npm run test:fetch
+          npm run test:archive
