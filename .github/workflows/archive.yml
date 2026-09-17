@@ -4,9 +4,20 @@
 # export with the same script the build uses, then committing the digest back.
 #
 # REQUIRED SECRET: WIKI_TOKEN — a token with READ access to the private wiki
-# repo (same access the Netlify build's GITHUB_TOKEN has). Without it, the fetch
-# falls back to the development fixture, which the archiver skips — so the job
-# is a harmless no-op until the secret is set.
+# repo (same access the Netlify build's GITHUB_TOKEN has).
+#
+# This comment used to call a missing token "a harmless no-op", because the fetch
+# fell back to the development fixture and the archiver skipped it, so the job
+# went green having done nothing. That sentence was wrong in a way that cost two
+# months: the learning-system lens ran on exactly this workflow with no secret,
+# reported success every morning from 22 August, and never archived a single
+# snapshot — its history.json was a copy of THIS repo's, and its Trajectory panel
+# plotted this wiki's corpus under its own name. A job that reports success for
+# doing nothing is the most expensive kind of green there is.
+#
+# Two things now stop that. The preflight below skips loudly and says how long
+# history has been frozen, and archive-snapshot.mjs refuses to append an export
+# from a different wiki to this series.
 #
 # OPTIONAL repo VARIABLES (default to the script's own defaults if unset):
 #   WIKI_REPO, WIKI_BRANCH, WIKI_PUBLIC_PATH
@@ -40,7 +51,42 @@ jobs:
         with:
           node-version: '20'
 
+      # Is there a token at all? Decided in its own step so the answer can be
+      # reported, rather than discovered as a stack trace three steps later.
+      - name: Preflight — is the wiki reachable from here?
+        id: pre
+        env:
+          TOKEN: ${{ secrets.WIKI_TOKEN }}
+        run: |
+          if [ -n "$TOKEN" ]; then
+            echo "has_token=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_token=false" >> "$GITHUB_OUTPUT"
+            last=$(node -e "
+              const h=require('./public/data/history.json');
+              const s=Array.isArray(h)?h:(h.snapshots||h.history||[]);
+              process.stdout.write(s.length?String(s[s.length-1].at).slice(0,10):'never');
+            ")
+            days='unknown'
+            if [ "$last" != "never" ]; then
+              days=$(( ( $(date -u +%s) - $(date -u -d "$last" +%s) ) / 86400 ))
+            fi
+            {
+              echo "### archive-snapshot did nothing"
+              echo ""
+              echo "\`WIKI_TOKEN\` is not set, so there is no way to read the wiki export"
+              echo "from here."
+              echo ""
+              echo "**history.json last gained an entry on \`$last\`.**"
+              echo "The Observatory's Trajectory panel has been flat since then."
+              echo ""
+              echo "Set the secret and this resumes on the next run."
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "::warning title=archive skipped::no token; history frozen since $last ($days days)"
+          fi
+
       - name: Fetch latest public export
+        if: steps.pre.outputs.has_token == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.WIKI_TOKEN }}
           WIKI_REPO: ${{ vars.WIKI_REPO }}
@@ -49,9 +95,11 @@ jobs:
         run: node scripts/fetch-data.mjs
 
       - name: Archive snapshot digest
+        if: steps.pre.outputs.has_token == 'true'
         run: node scripts/archive-snapshot.mjs
 
       - name: Commit if history changed
+        if: steps.pre.outputs.has_token == 'true'
         run: |
           if git diff --quiet -- public/data/history.json; then
             echo "No new snapshot — history unchanged."

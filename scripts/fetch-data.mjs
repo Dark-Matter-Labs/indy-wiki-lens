@@ -151,6 +151,12 @@ async function main() {
   }
 
   const { data, nodes } = validate(raw)
+  // Record WHERE this came from, in the data itself. archive-snapshot.mjs reads it to
+  // decide whether this export belongs in this lens's history at all — without the
+  // stamp a history copied from another lens is indistinguishable from an earned one,
+  // which is how this lens's own series ended up in two others.
+  data.meta = { ...data.meta, source_repo: CONFIG.repo, source_branch: CONFIG.branch }
+
   await writeFile(OUT_PATH, JSON.stringify(data), 'utf8')
   log(
     `wrote ${OUT_PATH} — ${nodes.length} node(s), exported_at ${
