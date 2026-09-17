@@ -15,6 +15,9 @@
  * Idempotent: dedupes by content hash, so re-running on an unchanged export is
  * a no-op (and the CI job commits nothing).
  *
+ * The history belongs to one wiki and records which, so a file copied from another
+ * lens is refused rather than silently continued. See stamped() below.
+ *
  * Usage: node scripts/archive-snapshot.mjs [exportPath] [historyPath]
  */
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
@@ -118,6 +121,48 @@ async function readHistory() {
   return { schema: HISTORY_SCHEMA, snapshots: [] }
 }
 
+/**
+ * A history file belongs to ONE wiki, and now says which.
+ *
+ * Found 2026-09-17: every one of the 34 snapshots in the learning-system lens's
+ * history.json was byte-identical to indy-wiki-lens's — same timestamps, same hashes —
+ * because the file was copied when that lens was created and the archiver had never
+ * once run with a token. The Trajectory panel plotted indy's corpus under another
+ * wiki's name from 16 July to 21 August, and nothing in the data could have said so: a
+ * snapshot records counts and slugs, never where it came from.
+ *
+ * So the file carries `source`, taken from the stamp fetch-data.mjs writes into the
+ * export it fetched. Copying the file now copies the stamp with it, which is the whole
+ * point — the copy announces itself on the first run instead of blending in.
+ */
+function stamped(history, source) {
+  if (!source) {
+    log('export does not say which wiki it came from — leaving this history unstamped.')
+    return history
+  }
+  if (history.source && history.source !== source) {
+    fail(
+      `this history belongs to ${history.source}, but the export came from ${source}. ` +
+        `Refusing to append one wiki's motion to another's series. If this lens was ` +
+        `created by copying another, delete public/data/history.json and let this one ` +
+        `start its own.`,
+    )
+  }
+  if (!history.source && history.snapshots.length > 0) {
+    log(
+      `adopting ${history.snapshots.length} unstamped snapshot(s) as ${source}'s. They ` +
+        `predate the stamp; if this lens was copied from another they are not yours, ` +
+        `and the file should be deleted rather than adopted.`,
+    )
+  }
+  return { ...history, source }
+}
+
+async function write(history) {
+  await mkdir(dirname(HISTORY_PATH), { recursive: true })
+  await writeFile(HISTORY_PATH, `${JSON.stringify(history, null, 2)}\n`, 'utf8')
+}
+
 async function main() {
   let raw
   try {
@@ -139,21 +184,29 @@ async function main() {
   }
 
   const snap = digest(data, raw)
-  const history = await readHistory()
+  const prior = await readHistory()
+  const history = stamped(prior, data?.meta?.source_repo || '')
   const last = history.snapshots[history.snapshots.length - 1]
 
   if (last && last.hash === snap.hash) {
-    log(`unchanged (hash ${snap.hash}) — history has ${history.snapshots.length} snapshot(s), nothing to add.`)
+    if (history.source === prior.source) {
+      log(`unchanged (hash ${snap.hash}) — history has ${history.snapshots.length} snapshot(s), nothing to add.`)
+      return
+    }
+    await write(history)
+    log(`unchanged (hash ${snap.hash}) — recorded this history as ${history.source}'s.`)
     return
   }
 
-  history.schema = HISTORY_SCHEMA
-  history.snapshots.push(snap)
-  await mkdir(dirname(HISTORY_PATH), { recursive: true })
-  await writeFile(HISTORY_PATH, `${JSON.stringify(history, null, 2)}\n`, 'utf8')
+  const next = {
+    ...history,
+    schema: HISTORY_SCHEMA,
+    snapshots: [...history.snapshots, snap],
+  }
+  await write(next)
   log(
     `archived snapshot ${snap.hash} (exported ${snap.exportedAt || 'unknown'}, ` +
-      `${snap.pages} pages) — history now has ${history.snapshots.length} snapshot(s).`,
+      `${snap.pages} pages) — history now has ${next.snapshots.length} snapshot(s).`,
   )
 }
 

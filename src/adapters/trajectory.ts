@@ -39,6 +39,12 @@ export interface SnapshotDigest {
 
 export interface SnapshotHistory {
   schema: number
+  /**
+   * The wiki this series belongs to, e.g. "Dark-Matter-Labs/indy-llm-wiki".
+   * Written by scripts/archive-snapshot.mjs, which refuses to append an export from
+   * anywhere else. Absent on histories written before 2026-09-17.
+   */
+  source?: string
   snapshots: SnapshotDigest[]
 }
 

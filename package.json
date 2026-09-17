@@ -11,7 +11,8 @@
     "postbuild": "node scripts/check-classes.mjs",
     "preview": "vite preview",
     "typecheck": "tsc -b --noEmit",
-    "lint:classes": "node scripts/check-classes.mjs"
+    "lint:classes": "node scripts/check-classes.mjs",
+    "test:archive": "node scripts/archive-snapshot.test.mjs"
   },
   "dependencies": {
     "d3": "^7.9.0",
