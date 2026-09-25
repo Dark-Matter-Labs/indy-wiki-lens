@@ -2479,6 +2479,48 @@
         "nutrition-cascade-dynamic-model",
         "operating-economics"
       ]
+    },
+    {
+      "at": "2026-09-25T06:46:05.456Z",
+      "exportedAt": "2026-09-24T15:11:19.125901+00:00",
+      "hash": "8b65f57de02a2403",
+      "pages": 303,
+      "links": 501,
+      "tags": 952,
+      "axioms": 0,
+      "avgDegree": 3.307,
+      "vec": {
+        "type:summary": 0.8844884488448845,
+        "type:synthesis": 0.0594059405940594,
+        "type:concept": 0.0462046204620462,
+        "type:entity": 0.009900990099009901,
+        "layer:unassigned": 0.9108910891089109,
+        "layer:portfolio": 0.019801980198019802,
+        "layer:mechanism": 0.0594059405940594,
+        "layer:goal": 0.006600660066006601,
+        "layer:sequence": 0.0033003300330033004,
+        "conf:medium": 0.9801980198019802,
+        "conf:high": 0.0165016501650165,
+        "conf:low": 0.0033003300330033004,
+        "hz:none": 0.9966996699669967,
+        "hz:near": 0.0033003300330033004
+      },
+      "centers": [
+        "indy-johar-substack",
+        "optionality",
+        "civilizational-optionality",
+        "portfolio-engineering",
+        "consciousness-as-participatory-constraint-summary",
+        "systemic-risk-projection-model",
+        "plus-hm-more-than-human-and-machine-summary",
+        "option-fields",
+        "being-human-in-an-unfurling-world-part-two-summary",
+        "prophecy-seeding-campaign",
+        "being-human-in-an-unfurling-world-part-one-summary",
+        "human-plus-futures-frontier-lab",
+        "nutrition-cascade-dynamic-model",
+        "operating-economics"
+      ]
     }
   ]
 }
